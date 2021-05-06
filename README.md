@@ -1,48 +1,32 @@
-learning_python
-
-
-
-보편화 버전 : 3.8
-
-
+# learning_python
 
 ## 설치
 
-1. anaconda 설치
-
-   - anaconda는 기본 파이썬 + 기본 패키지 내장 + 에디터 포함
-   - https://www.anaconda.com/products/individual
-   - window 64bit 설치
-   - Anaconda3-2020.11-Windows-x86_64.exe
-
-   
-
-2. 파이썬 버전 확인( Python 3.8.5 )
-
-   ``` 
-   python --version
-   ```
-
-   
-
-3. IDE ( Editer )
-
-   - pycharm
-     - https://www.jetbrains.com/ko-kr/pycharm/download/#section=windows
-     - 무료 오픈소스 버전(community) 설치
-   - jupyter note book (in anaconda)
-
-4. 2
-
-5. 2
-
-6. 2
-
-7. 2
-
-8. 2
 
 
+### 1. anaconda 설치
+
+- anaconda는 기본 파이썬 + 기본 패키지 내장 + 에디터 포함
+- https://www.anaconda.com/products/individual
+- window 64bit 설치
+- Anaconda3-2020.11-Windows-x86_64.exe
+
+
+
+### 2. 파이썬 버전 확인( Python 3.8.5 )
+
+``` 
+python --version
+```
+
+
+
+### 3. IDE ( Editer )
+
+- pycharm
+  - https://www.jetbrains.com/ko-kr/pycharm/download/#section=windows
+  - 무료 오픈소스 버전(community) 설치
+- jupyter note book (in anaconda)
 
 
 
@@ -478,4 +462,72 @@ if(s == s2):
 else:
     print('회문이 아님')
 ```
+
+
+
+### 문자열 관련 함수
+
+s.count('글') : s 문자열에서 '글'이라는 문자 개수 세기
+
+s.index('글') : s 문자열에서 문자 '글' 위치 알려주기
+
+s.find('글') : s 문자열에서 문자 '글' 위치 알려주기
+
+s.rfind('글') : s 문자열에서 문자 '글' 오른쪽에서 왼쪽으로 찾아서 위치 알려주기
+
+len(s) : s 문자열 길이
+
+s.upper() : 소문자를 대문자로
+
+s.lower() : 대문자를 소문자로
+
+s.lstrip() : 왼쪽 공백 지우기
+
+s.rstrip() : 오른쪽 공백 지우기
+
+s.strip() : 양쪽 공백 지우기
+
+s.replace("a","b")  :  s 문자열에서 단어 a를 단어 b로 바꾸기
+
+s.split() : s 문자열을 공백으로 나누기
+
+s.split('z') : s 문자열을 z 기호로 나누기
+
+d.join(s) : d 단어를 s 문자열에 삽입
+
+
+
+#### 연습
+
+```python
+msg ='오늘도 행복도 하다'
+
+""" [ 출력결과 ]
+    1) '행복'이라는 글자 위치 찾기
+    2) '가자'라는 글자 위치 찾기
+    3) '행복'이라는 글자를 오른쪽에서 왼쪽으로 찾기
+    4) 문자열 전체 길이 구하기
+    5) '도'라는 단어의 갯수 구하기
+"""
+print(msg.index('행복'))
+print(msg.find('가자'))
+print(msg.rfind('행복'))
+print(len(msg))
+print(msg.count('도'))
+
+
+msg = "우리는 독도를 지킨다"
+# 1) 독도를 대한민국으로 변경
+print(msg.replace('독도', '대한민국'))
+
+# 2) 공백을 기준으로 단어 나누기
+print(msg.split(" "))
+
+# 3) 각 단어마다 콤마(,)를 추가
+print(','.join(msg))
+```
+
+
+
+### boolean 
 
