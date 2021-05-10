@@ -32,8 +32,10 @@ dt = {
 dtValues = dt.values()
 print(dtValues)
 ipStr = input('문자열을입력하시오:')
-ipStrSp = ipStr.split()
-for i in range(len(ipStrSp)):
+
+for i in range(len(ipStr)):
     for j in range(len(dtValues)):
-        if ipStrSp[i] in dt[j + 2]:
-            print(dt[j + 2])
+        # print(ipStr[i])
+        # print(dt[j + 2])
+        if ipStr[i] in dt[j + 2]:
+            print(dtValues[j])
