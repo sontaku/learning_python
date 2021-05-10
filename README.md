@@ -529,5 +529,228 @@ print(','.join(msg))
 
 
 
-### boolean 
+### bool형
+
+
+
+### 문자열 포맷
+
+```python
+# 0- 문자열 포맷팅
+print('내가 좋아하는 숫자는 ', 100 )
+print('내가 좋아하는 숫자는 ' + 100 ) # 에러 발생
+# 1- format() 이용
+print('내가 좋아하는 숫자는 {0:d} 이다'.format(100) )
+# 2- % 사용
+print('내가 좋아하는 숫자는 %d 이다' % 100 )
+
+# [참고] http://pyformat.info
+
+```
+
+
+
+#### format() 이용
+
+```python
+msg = '{}님, 오늘도 행복하세요 - {}으로부터'
+print(msg.format('홍길동', '씨앗'))
+
+# 출력값 : 홍길동님, 오늘도 행복하세요 - 씨앗으로부터
+```
+
+java sql의 PreparedStatement와 비슷한 형태
+
+
+
+순서 변경
+
+```python
+msg = '{1}님, 오늘도 행복하세요 - {0}으로부터'
+print(msg.format('홍길동', '씨앗'))
+
+# 출력값 : 씨앗님, 오늘도 행복하세요 - 홍길동으로부터
+```
+
+
+
+변수 지정
+
+```python
+msg = '{name}님, 오늘도 행복하세요 - {group}으로부터'
+print(msg.format(name='홍길동', group='씨앗'))
+
+# 출력값 : 홍길동님, 오늘도 행복하세요 - 씨앗으로부터
+```
+
+
+
+#### % 이용
+
+```python
+name = '홍길동'
+age = 22
+height = 170.456
+print('%s님 %d세이고, 키는 %10.1f cm입니다' % (name, age, height))
+
+# 출력값 : 홍길동님 22세이고, 키는      170.5 cm입니다
+```
+
+
+
+#### 실수인 경우
+
+```python
+temp = 99.99
+print('숫자 :', temp)
+print('숫자 : %.2f' % temp)
+print('숫자 : {0:.1f}'.format(temp))
+
+# 출력값 : 숫자 : 99.99
+# 출력값 : 숫자 : 99.99
+# 출력값 : 숫자 : 100.0
+```
+
+
+
+> 문자열 연습문제 : https://cafe.naver.com/javassem?iframe_url=/MyCafeIntro.nhn%3Fclubid=25907255
+>
+> 
+>
+> 답
+>
+> 1. 3
+>  문자열 a + 문자열 b
+> 2. 2
+>  3+5+13 = 21
+> 3. 1 (Gachon Human)
+> 4. 2
+>  원본 그대로
+> 5. 1010102
+> 6. aa
+> 7. 8,1
+> 8. 3
+> 9. 1
+
+
+
+### Date 타입
+
+#### 현재 날짜 출력
+
+```python
+import datetime
+today = datetime.date.today();
+print('today is ', today)
+
+# 출력값 : today is  2021-05-10
+```
+
+
+
+#### 연도, 월, 일
+
+```python
+print('연도: ', today.year)
+print('월: ', today.month)
+print('일: ', today.day)
+
+# 출력값 : 연도:  2021
+# 출력값 : 월:  5
+# 출력값 : 일:  10
+```
+
+
+
+#### 날짜 계산
+
+```python
+import date, timedelta
+
+print('어제: ', today + timedelta(days=-1))
+print('일주일전: ', today + timedelta(days=7))
+print('열흘 후: ', today + timedelta(days=10))
+
+# 출력값 : 어제:  2021-05-09
+# 출력값 : 일주일전:  2021-05-17
+# 출력값 : 열흘 후:  2021-05-20
+```
+
+
+
+#### [중요] 날짜 변환
+
+##### 1. date to string
+
+```python
+from datetime import datetime
+today = datetime.today()
+print(today.strftime('%Y-%m-%d %H:%M'))
+
+# 출력값 : 2021-05-10 10:29
+```
+
+
+
+##### 2. string to date
+
+```python
+from datetime import datetime
+strToday = '2021-05-10 10:30:30'
+print(datetime.strptime(strToday, '%Y-%m-%d %H:%M:%S'))
+
+# 출력값 : 2021-05-10 10:30:30
+```
+
+
+
+### 자료형
+
+> **list** - > array, ArrayList in java
+>
+> **set** -> Set in java
+>
+> **tuple**
+>
+> **dictionary** -> Map(HashMap) in java
+
+
+
+#### List
+
+- 임의의 객체를 순차적으로 저장하는 집합 자료형
+- 각 값에 대해 인덱스 부여
+- 변경가능 (중요)
+- 대괄호 [ ] 사용
+
+배열은 연속적으로 공간을 저장하는 것이나, 파이썬에는 없다
+
+파이썬에서는 리스트를 사용한다
+
+배열은 생성시 크기를 지정하지만 리스트는 크기 제한이 없다
+
+
+
+##### 기본 리스트 인덱스
+
+```python
+arr = [] # 비워져 있는 리스트 생성
+arr = [1,2,3,4,5]
+
+arr.append(10)
+print(arr)
+# 출력값 : [1, 2, 3, 4, 5, 10]
+```
+
+
+
+##### 이중 리스트
+
+ ```python
+ arr = [1, 2, 3, 4, 5]
+ arr.append([6, 7, 8])
+ print(arr)
+ 
+ # 출력값 : [1, 2, 3, 4, 5, [6, 7, 8]]
+ ```
 
