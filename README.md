@@ -902,3 +902,166 @@ print(s3 - s) # 여집합
 
 
 
+#### Tuple
+
+- 리스트와 유사하지만 튜플은 값을 변경 못한다.
+- 각 값에 대해 인덱스가 부여
+- 변경 불가능 (*****)
+- 소괄호 () 사용
+
+
+
+```python
+# (1)튜플 생성
+t = (1,2,3)
+
+# (2) 튜플은 요소를 변경하거나 삭제 안됨
+print('------------------- 2 -----------------')
+t[1] = 0  # 블럭이 생기면서 실행 안됨
+del t[1]   # 에러 발생
+del t # 전체삭제
+
+# (3) [_중요_]하나의 요소를 가진 튜플
+print('------------------- 3 -----------------')
+t3 = (1)
+print(t3)
+# print(t3[0]) # 에러
+print(type(t3)) # <class 'int'>
+
+t3 = (1,) # 요소가 하나일때는 콤마를 통해 튜플임을 명시
+print(t3)
+print(type(t3)) # <class 'tuple'>
+```
+
+
+
+#### Dictionary
+
+- 키와 값으로 구성 ( ***자바의 map과 유사*** )
+- 저장된 자료의 순서는 의미 없음
+- 중괄호 {} 사용
+- 변경가능
+
+
+
+- keys() : key만 추출 (임의의 순서)
+- values() : value만 추출 (임의의 순서)
+- items() : key와 value를 튜플로 추출 (임의의 순서)
+
+##### 생성, 출력
+
+```python
+# 생성
+dt = {1:'one', 2:'two', '3':'three'}
+print(dt)
+
+# 키값이 1인 요소 출력
+print(dt[1])
+
+# 키값이 3인 요소 출력 => 존재하지않음
+# print(dt[3])
+
+# 키값이 '3'인 요소 출력
+print(dt['3'])
+```
+
+
+
+```python
+# 중복값이 있는 경우
+dt = {1:'one', 2:'two', '3':'three', 1:'하나'}
+print(dt)
+
+# 출력값 : {1: '하나', 2: 'two', '3': 'three'}
+```
+
+나중에 선언한 값으로 다시 가리킴(초기화)
+
+
+
+##### 값 추가, 수정
+
+```python
+# 추가
+dt = {1:'one', 2:'two', '3':'three', 1:'하나', 3:'셋'}
+dt['korea'] = 'seoul'
+print(dt)
+
+# 출력값 : {1: '하나', 2: 'two', '3': 'three', 3: '셋', 'korea': 'seoul'}
+
+# 수정
+dt['korea'] = '서울'
+print(dt)
+
+#출력값 : {1: '하나', 2: 'two', '3': 'three', 3: '셋', 'korea': '서울'}
+```
+
+
+
+##### 여러개 삽입(추가)
+
+```python
+dt.update({5:'kim', 6:'hong', 7:'kang'})
+```
+
+
+
+##### Key로 Value값 찾기
+
+```python
+print(dt.get(9)) # 존재하지 않으면 None
+print(dt.get(9, '없음')) # None -> '없음' 변형
+```
+
+
+
+##### Key와 Value만 따로 검색
+
+```python
+print(dt.keys()) # key값만 가져옴
+print(dt.values()) # value 값만 가져옴
+print(dt.items()) # key,value 묶음 조회
+
+# 출력값 : dict_keys([1, 2, '3', 3, 'korea', 5, 6, 7])
+# 출력값 : dict_values(['하나', 'two', 'three', '셋', '서울', 'kim', 'hong', 'kang'])
+# 출력값 : dict_items([(1, '하나'), (2, 'two'), ('3', 'three'), (3, '셋'), ('korea', '서울'), (5, 'kim'), (6, 'hong'), (7, 'kang')])
+```
+
+
+
+#### 콘솔 입력 처리 함수
+
+- input() : 기본적으로 문자열로 입력받음
+- eval() : 함수로 감싸면 숫자 처리됨
+- int() / float() / str() 자료형변환  ( eval() 사용보다는 형변환을 권장 )
+
+
+
+##### 구구단 예제
+
+```python
+# 단을 입력받아 구구단을 구하기
+num = input('구구단을 외자~ 구구단을 외자~ 몇 단? : ')
+for i in range(1, 10):  # 1 ~ 9
+    # print(num, 'x', i, '=', i * int(num))
+    print('{} * {} = {}'.format(num, i, int(num) * i))
+```
+
+
+
+##### 이중 for문
+
+```python
+for i in range(5):
+    for j in range(5):
+        # 연산의 끝마다 ', '를 추가하며 끝부분은 "" 공백만
+        print(i * j, end=', ' if j < 4 else "")
+    print()
+# 출력값 : 
+# 0, 0, 0, 0, 0
+# 0, 1, 2, 3, 4
+# 0, 2, 4, 6, 8
+# 0, 3, 6, 9, 12
+# 0, 4, 8, 12, 16
+```
+
