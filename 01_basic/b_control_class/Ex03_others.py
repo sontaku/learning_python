@@ -44,5 +44,12 @@ print(list(zip(days, doit)))
 print(set(zip(days, doit)))
 print(dict(zip(days, doit)))
 
+print('-------------')
+
+test = dict(zip(days, doit))
+print(test['월'])
+
+print('--------------')
+
 for yoil, halil in zip(days, doit):
     print(yoil, halil)

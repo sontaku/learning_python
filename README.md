@@ -886,7 +886,7 @@ print(s.union(s3))
 
 
 
-##### [추가]
+##### [추가] 차집합 & 여집합
 
 ```python
 print(s & s3) # 교집합
@@ -936,7 +936,7 @@ print(type(t3)) # <class 'tuple'>
 
 
 
-#### dictionary
+#### dictionary (a.k.a. dict)
 
 - 키와 값으로 구성 ( ***자바의 map과 유사*** )
 - 저장된 자료의 순서는 의미 없음
@@ -1302,6 +1302,19 @@ print(dict(zip(days, doit)))
 
 
 
+활용예제
+
+```python
+test=dict(zip(days, doit))
+print(test['월'])
+
+# 잠자기
+```
+
+위와 같이 객체로 활용가능
+
+
+
 ##### for문 활용
 
 ```python
@@ -1314,3 +1327,92 @@ for yoil, halil in zip(days, doit):
 # 수 공부
 ```
 
+
+
+#### comprehension
+
+- 하나 이상의 이터레이터로부터 파이썬 자료구조를 만드는 컴팩트한 방법
+- 비교적 간단한 구문으로 반복문과 조건 테스트를 결합
+
+
+
+##### [중요] list cprhs
+
+[ 표현식 for 항목 in 순회가능객체 ]
+
+[ 표현식 for 항목 in 순회가능객체 if 조건 ]
+
+for문이 먼저 돌고 for문 앞 연산 진행
+
+```python
+# [중요]
+# 1~6 정수를 하나씩 n에 넣고, n을 b리스트 요소로 지정
+blist = [n for n in range(1, 7)]
+
+# n의 2배수를 요소로 지정
+blist = [n * 2 for n in range(1, 7)]
+
+# n이 홀수인 값을 n+1에 담아 요소로 지정
+blist = [n + 1 for n in range(1, 7) if n % 2 == 1]
+```
+
+
+
+###### [참고] 사용 vs 미사용
+
+```python
+# [참고] comprehension 미사용시
+clist = []
+for r in range(1, 4):
+    for c in range(1, 3):
+        clist.append((r, c))
+print(clist)
+
+# 사용시
+clist = [(r, c) for r in range(1, 4) for c in range(1, 3)]
+print(clist)
+```
+
+이중 for문의 경우 앞의 for문을 바깥에서 먼저 실행하는 구조
+
+
+
+##### dictionary cprhs
+
+{ 키_표현식: 값_표현식 for 표현식 in 순회가능객체 }
+
+```python
+data = (2, 3, 4)
+adic = {n: n ** 2 for n in data}
+print(adic)
+
+# 출력값 : {2: 4, 3: 9, 4: 16}
+```
+
+
+
+###### 예제
+
+```python
+word = 'LOVE LOL'
+wcnt = {n: word.count(n) for n in word}
+print(wcnt)
+
+# 출력값 : {'L': 3, 'O': 2, 'V': 1, 'E': 1, ' ': 1}
+```
+
+
+
+##### set cprhs
+
+ { 표현식 for 표현식 in 순회가능객체 }
+
+```python
+data = [1,2,3,1,1,2]
+aset = {n for n in data}
+print(aset)
+
+# 출력값 : {1, 2, 3}
+```
+
+중괄호로 감싸 set 자료형으로 요소 지정
