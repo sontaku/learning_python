@@ -24,20 +24,74 @@
 
 # 거짓(False)의 값
 i = 0;
-i2=0.0
-i3=""
-i4=str()
-i5=list()
-i6=tuple()
-i7=set()
-i8=dict()
-i9={}
-i10=None
+i2 = 0.0
+i3 = ""
+i4 = str()
+i5 = list()
+i6 = tuple()
+i7 = set()
+i8 = dict()
+i9 = {}
+i10 = None
+
+print(type(i9))
+
+a = 0
+if a:
+    print('True1')
+else:
+    print('False1')
+
+# (2) 논리연산자 이용한 조건
+a = 10 # True
+b = -1 # True
+if a and b:
+    print('True2')
+else:
+    print('False2')
+
+if a or b:
+    print('True3')
+else:
+    print('False3')
+
+# [참고] 자바의 short circuit logic
+print(a and b)
+print(a or b)
 
 
+# (3) 블록에 대한 정리
+a = 10
+if a:
+    print('A')
+    print('B')
+    print('C')
 
+a = 10
+if a:
+    print('A')
+print('B')
+    #print('C')
 
+print('-----------------------')
 
+a = 10
+if not a:
+    c = 10
+elif not b:
+    c = 20
+else:
+    c = 30
+print(c)
 
+print('--------------')
 
+# (4)
+word = 'korea'
+print(word.find('k')) # 찾아서 0 -> False
+if word.find('k'):
+    print('1>' + word)
 
+print(word.find('z')) # 못찾아서 -1 -> 있는값이라고 판단해 True
+if word.find('z'):
+    print('2>' + word)

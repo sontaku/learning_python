@@ -716,7 +716,7 @@ print(datetime.strptime(strToday, '%Y-%m-%d %H:%M:%S'))
 
 
 
-#### List
+#### list
 
 - 임의의 객체를 순차적으로 저장하는 집합 자료형
 - 각 값에 대해 인덱스 부여
@@ -829,7 +829,7 @@ https://cafe.naver.com/javassem?iframe_url=/MyCafeIntro.nhn%3Fclubid=25907255
 > 8. 4
 >
 > 9. 3
->   input 함수는 형변환하지 않으면 무조건 스트링으로 반환
+>     input 함수는 형변환하지 않으면 무조건 스트링으로 반환
 >
 > 10. ["Korea", "Japan", "China", ["Seoul", [2, 3], "Tokyo", "Beijing"]]	
 >
@@ -844,7 +844,7 @@ https://cafe.naver.com/javassem?iframe_url=/MyCafeIntro.nhn%3Fclubid=25907255
 
 
 
-#### Set
+#### set
 
 - 집합에 관련된 자료형
 - 순서를 지정하지 않는다
@@ -902,17 +902,17 @@ print(s3 - s) # 여집합
 
 
 
-#### Tuple
+#### tuple
 
 - 리스트와 유사하지만 튜플은 값을 변경 못한다.
 - 각 값에 대해 인덱스가 부여
-- 변경 불가능 (*****)
+- **[중요]변경 불가능**
 - 소괄호 () 사용
 
 
 
 ```python
-# (1)튜플 생성
+# (1) 튜플 생성
 t = (1,2,3)
 
 # (2) 튜플은 요소를 변경하거나 삭제 안됨
@@ -928,14 +928,15 @@ print(t3)
 # print(t3[0]) # 에러
 print(type(t3)) # <class 'int'>
 
-t3 = (1,) # 요소가 하나일때는 콤마를 통해 튜플임을 명시
+# 요소가 하나일때는 콤마를 통해 튜플임을 명시
+t3 = (1,)
 print(t3)
 print(type(t3)) # <class 'tuple'>
 ```
 
 
 
-#### Dictionary
+#### dictionary
 
 - 키와 값으로 구성 ( ***자바의 map과 유사*** )
 - 저장된 자료의 순서는 의미 없음
@@ -1063,5 +1064,253 @@ for i in range(5):
 # 0, 2, 4, 6, 8
 # 0, 3, 6, 9, 12
 # 0, 4, 8, 12, 16
+```
+
+
+
+### 제어문
+
+- 파이썬은 들여쓰기를 하여 블록{}을 대신 표현한다
+- 들여쓰기는 탭과 공백을 섞어 쓰지 말자
+
+```python
+if a>b:
+	print(a)
+		print(b)  => 에러발생
+```
+
+#### if문
+
+```python
+if 조건식A :
+	문장들
+elif 조건식B :
+	문장들
+else :
+	문장들
+```
+
+- 조건식이나 else 뒤에는 콜론(:) 표시
+- 조건식은 ( ) 괄호 필요없음
+- 실행할 코드가 없으면 pass
+- 파이썬은 switch 문 없음
+
+
+
+```python
+a = 0
+if a:
+    print('True1')
+else:
+    print('False1') # False1 출력
+```
+
+
+
+##### 논리연산자 활용
+
+```python
+# (2) 논리연산자 이용한 조건
+a = 10
+b = -1
+if a and b:
+    print('True2') # True2 출력
+else:
+    print('False2')
+
+if a or b:
+    print('True3') # True3 출력
+else:
+    print('False3')
+    
+# [참고] 자바의 short circuit logic
+print(a and b) # -1 출력
+print(a or b) # 10 출력
+```
+
+
+
+##### if문 로직 연습
+
+```python
+word = 'korea'
+print(word.find('k')) # 찾아서 0 -> False
+if word.find('k'):
+    print('1>' + word)
+
+print(word.find('z')) # 못찾아서 -1 -> 있는값이라고 판단해 True
+if word.find('z'):
+    print('2>' + word)
+```
+
+
+
+#### for문
+
+```python
+for <타겟변수> in 집합객체 :
+	문장들
+else:
+	문장들
+# 반복문 뒤에 else는 반복하는 조건에 만족하지않으면 실행
+```
+
+집합객체에 해당하는 요소
+
+- 리스트
+- 문자열
+- 튜플
+- 딕셔너리
+
+숫자형은 반복이 되지 않아 집합객체에 들어갈 수 없다.
+
+
+
+##### for문 (dict)
+
+```python
+e = dict(k=5, j=6)       # 딕셔너리
+
+for k, val in e.items():
+    print('key :', k, ', value:', val)
+  
+# 출력값 :
+# key : k , value: 5
+# key : j , value: 6
+```
+
+
+
+#### while문
+
+```python
+while 조건문 :
+	문장들
+else :
+	문장들
+```
+
+
+
+##### 예제
+
+```python
+a = ['a', 'b', 'c']
+while a: # 조건
+    data = a.pop()
+    print(data)
+else: # for문이나 와일문 조건문에 위배됐을때
+    print('끝')
+   
+# 출력값 : 
+# c
+# b
+# a
+# 끝
+```
+
+
+
+#### 요소 분할 (unpacking)
+
+```python
+msg = '행복해'            # 문자열
+li = ['a','b','c']       # 리스트
+tpl = ('ㄱ','ㄴ','ㄷ')    # 튜플
+di = {'k': 5, 'j': 6, 'l':7 }    # 딕셔너리
+
+# unpacking : 요소분할
+c1, c2, c3 = li
+print(c1)
+print(c2)
+print(c3)
+
+# 출력값 : 
+# a
+# b
+# c
+```
+
+
+
+예제
+
+```python
+'''
+    [출력결과]
+    1 + 2 = 3
+    3 + 4 = 7
+    5 + 6 = 11
+'''
+for i, j in alist:
+    print('{} + {} = {}'.format(i, j, i + j))
+```
+
+
+
+#### enumerate()
+
+> java의 iterator와 비슷한 성격
+
+```python
+user_list = ['개발자', '코더', '프로그래머']
+for val in user_list:
+    print(val)
+# 출력값 : 
+#개발자
+#코더
+#프로그래머
+
+for val in enumerate(user_list):
+    print(val)
+# 출력값 : 
+#(0, '개발자')
+#(1, '코더')
+#(2, '프로그래머')
+
+for idx, val in enumerate(user_list):
+    print(idx, '>', val)
+# 출력값 : 
+#0 > 개발자
+#1 > 코더
+#2 > 프로그래머
+```
+
+
+
+#### [중요] zip()
+
+자료형 크기에 상관없이 1:1 iterator 활용
+
+```python
+days = ['월', '화', '수']
+doit = ['잠자기', '밥먹기', '공부', '놀기']
+
+print(zip(days, doit)) 
+# <zip object at 0x000002AEF85063C8>
+
+print(list(zip(days, doit)))
+# [('월', '잠자기'), ('화', '밥먹기'), ('수', '공부')]
+
+print(set(zip(days, doit)))
+# {('수', '공부'), ('월', '잠자기'), ('화', '밥먹기')}
+# set의 경우 월,화,수 순서대로 삽입됐지만 순서가 없어 '가나다'순으로 조회됨
+
+print(dict(zip(days, doit)))
+# {'월': '잠자기', '화': '밥먹기', '수': '공부'}
+```
+
+
+
+##### for문 활용
+
+```python
+for yoil, halil in zip(days, doit):
+    print(yoil, halil)
+    
+# 출력값 : 
+# 월 잠자기
+# 화 밥먹기
+# 수 공부
 ```
 
