@@ -90,3 +90,18 @@ print(aset)
 # -------------------------------------------------
 # [참고] 제너레이터 컨프리핸션
 # ( ) 를 사용하면 튜플이라 생각하지만 튜플은 컨프리핸션이 없다.
+
+print('-------------------------')
+alist = ['a1', 'a2', 'a3']
+blist = ['b1', 'b2' ,'b3']
+# for i in range(0,3):
+#     for a,b in (alist, blist):
+#         print(a, b)
+
+for i in range(0, 3):
+    print('{} {}'.format(alist[i], blist[i]))
+
+alphabet = ["a", "b", "c", "d", "e", "f", "g", "h"]
+nums = [i for i in range(20)] # 0~19 / 0 2 4 .. 16 18
+answer = [alpha+str(num) for alpha in alphabet for num in nums if num%2==0]
+print(len(answer)) 
