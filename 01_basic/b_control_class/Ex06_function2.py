@@ -1,20 +1,35 @@
-
 # [추가] 함수도 객체이다
 def case1():
     print('case-1')
 
+
 def case2():
     print('case-2')
+
 
 def case3():
     print('case-3')
 
 
+f = {'a1': case1, 'a2': case2, 'a3': case3}
+print(f['a1'])
+f['a1']()
 
-#---------------------------------------
+# ---------------------------------------
 # 글로벌 변수와 지역변수
+print('------------------------')
+temp = '글로벌 변수'
 
 
+def func():
+    # print('0>', temp)
+    global temp
+    temp = '지역 변수'
+    print('1>', temp)
+
+
+func()
+print('2>', temp)
 
 '''
 #----------------------------------------------
@@ -26,10 +41,19 @@ def case3():
     
     종종 사용됨
 '''
+print('----------------------')
 
 
+def f(a, b):
+    return print(a + b)
 
-#-----------------------------------------------------------
+
+f(3, 2)
+
+f = lambda a, b: print(a + b)
+f(3, 2)
+
+# -----------------------------------------------------------
 """  맵리듀스
     (1) map()
          ` 연속 데이터를 저장하는 시퀀스 자료형에서 요소마다 같은 기능을 적용할 때 사용
@@ -41,8 +65,38 @@ def case3():
     
     파이썬 2.x에서는 많이 사용하던 함수이지만, 최근 문법의 복잡성으로 권장하지 않는 추세란다.
 """
+print('---------------')
+
+
+def cals(x):
+    print('연산 전 : ', x)
+    return x * 2
+
+
+data = [1, 2, 3, 4, 5]
+# 내부적으로 반복문을 사용한다고 상상
+print(list(map(cals, data)))
+
+print('-----------------')
+
+# reduce
+from functools import reduce
+data = [1, 2, 3, 4, 5]
+def f(a, b):
+    return a + b
+print(reduce(f, data))
 
 
 
+print('-------------')
+def factorial_calculator(n):
+    if n in (0, 1):
+        return 1
+    else:
+        return n * factorial_calculator(n - 1)
 
-
+# if n > 1:
+#  n * n-1
+#  n = n - 1
+#  factorial_calculator(n)
+print(factorial_calculator(5))

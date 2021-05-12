@@ -1416,3 +1416,376 @@ print(aset)
 ```
 
 중괄호로 감싸 set 자료형으로 요소 지정
+
+
+
+##### *generator* cprhs
+
+```python
+data = [1,2,1,2,3,2,1]
+
+glist = (n for n in data)
+print(type(glist))
+print(list(glist))
+
+# 출력값 : <class 'generator'>
+# 출력값 : [1, 2, 1, 2, 3, 2, 1]
+```
+
+소괄호() 를 사용하면 튜플이라 생각하지만 튜플은 컨프리핸션이 없다.
+
+
+
+### 함수
+
+```python
+def func():
+    print('inside func')
+    
+func()
+# 출력값 : inside func
+
+# 리턴값이 없어 None도 출력
+print(func())
+```
+
+
+
+#### 리턴값이 있는 함수
+
+```python
+def func(arg1, arg2):
+    return arg1 + 100, arg2 + 10
+
+result = func(1, 2)
+print(result)
+
+# 출력값 : (101, 12)
+```
+
+
+
+
+
+#### 여러개의 리턴값이 있는 함수
+
+> 튜플로 하나의 리턴
+
+```python
+def func(arg1, arg2):
+    return arg1 + 100, arg2 + 10
+
+res1, res2 = func(1,2)
+print(res1, res2)
+
+# 출력값 : 101 12
+```
+
+
+
+#### 위치 인자 vs 키워드 인자
+
+> ```
+> positional argument : keyword argument
+> ```
+
+
+
+##### 위치 인자 ( positional argument )
+
+```python
+def func(greeting, name):
+    print(greeting, '!!!!', name, '님')
+
+func('안녕', '홍길동')
+func('김길동', '잘가')
+
+# 출력값 : 안녕 !!!! 홍길동 님
+# 출력값 : 김길동 !!!! 잘가 님
+```
+
+위치인자 함수의 경우 원하는곳에 데이터가 삽입되기 보다는 순서대로 매개변수를 받아 처리한다.
+
+
+
+##### 키워드 인자 ( keyword argument )
+
+```python
+func(name='김길동', greeting='잘가')
+
+# 출력값 : 잘가 !!!! 김길동 님
+```
+
+키워드 인자의 경우 함수를 사용할때 미리 '함수의 파라미터명'과 일치시켜준다.
+
+
+
+#### 인자의 기본값 지정
+
+```python
+def func(greeting, name='홍길동'):
+    print(greeting, '!!!!', name, '님')
+
+func('헬로우', '존')
+func('올라')
+
+# 출력값 : 
+# 헬로우 !!!! 존 님
+# 올라 !!!! 홍길동 님
+```
+
+함수 선언시 파라미터의 기본값을 지정해주면, null 값을 전달받아도 처리할 수 있게 된다.
+
+즉, 기본값은 null값을 전달받을 때만 유효한 값이다.
+
+
+
+##### [참고] 기본값 알쓸신잡
+
+```python
+def buggy(arg, result=[]):
+    result.append(arg)
+    print(result)
+buggy('가')
+buggy('나')
+buggy('다', [1,2,3,4])
+buggy('라')
+```
+
+ 위 함수의 경우 result 파라미터는 두번째 인자를 받지 않았을때, 빈 list 객체를 생성 후 처리한다.
+
+
+
+```python
+# 출력값 : 
+['가']
+['가', '나']
+[1, 2, 3, 4, '다']
+['가', '나', '라']
+```
+
+세번째의 경우 함수에서 파라미터를 받아 새로운 list 객체를 생성하였지만
+
+파라미터가 없는 경우..
+
+
+
+<hr>
+
+#### [중요] 위치 인자 모으기
+
+> ```
+> 첫번째와 두번째는 인자가 반드시 들어가고 
+> 세번째는 인자가 들어갈 수도 있고 없으면 0으로 초기화한다
+> 
+> 그러나 네번째 인자부터는 정확히 모른다면?
+> ```
+
+
+
+```python
+def func(a, b, c=0, *args): # args는 변수명
+    sum = a + b + c
+    for i in args:
+        sum += i
+    return sum
+```
+
+4번째 변수 부터는 파라미터가 몇 개가 들어오든 튜플로 변환하여 값을 받는다.
+
+조커와 같은 개념으로 변수명 앞에 *****(별표)를 붙여 표기한다.
+
+
+
+```python
+print(func(4, 5))
+print(func(4, 5, 6))
+print(func(4, 5, 6, 7))
+print(func(4, 5, 6, 7, 8, 9))  # args에 7,8,9가 튜플로 들어간다
+
+# 출력값 :
+9
+15
+22
+39
+```
+
+
+
+<hr>
+
+#### [중요] 키워드 인자 모으기
+
+- *변수명 : 위치인자 모으기
+- **변수명 : 키워드인자 모으기
+
+```python
+def func(a, b, c=0, *args, **kwargs):
+    sum = a + b + c
+    for i in args:
+        sum += i
+    for k in kwargs:
+        sum += kwargs[k]
+    return sum
+
+print(func(4, 5, kor=5, eng=10))
+print(func(4, 5, 6, kor=5, eng=10))
+print(func(4, 5, 6, 7, 8, 9, java=5, python=10))
+
+# 출력값 : 
+24
+30
+54
+```
+
+문법상 * 한개짜리를 앞에 써야함
+
+
+
+#### 함수의 객체화
+
+> 파이썬에서는 함수도 객체이다.
+>
+> 아래와 같이 이름 호출을 통한 함수 사용이 가능하다.
+
+```python
+def case1():
+    print('case-1')
+
+def case2():
+    print('case-2')
+
+def case3():
+    print('case-3')
+
+# 'a1'는 문자열
+# case1은 함수 객체
+f = {'a1' : case1, 'a2' : case2, 'a3' : case3} 
+print(f['a1'])
+f['a1']()
+
+# 출력값 : 
+<function case1 at 0x00000174CDD93798>
+case-1
+```
+
+
+
+#### 전역 변수와 지역 변수
+
+자바에서는 블록단위로 전역변수, 지역변수를 분류했는데,
+
+파이썬에서는 *함수단위*로 기준을 나눈다.
+
+```python
+temp = '전역 변수'
+def func():
+    # print('0>', temp) # 전역 변수 호출 불가
+    temp = '지역 변수'
+    print('1>', temp)
+func()
+print('2>', temp)
+
+# 출력값 :
+1> 지역 변수
+2> 전역 변수
+```
+
+
+
+##### 함수 안에서 전역변수 선언
+
+```python
+temp = '전역 변수'
+def func():
+    global temp # 변수 초기화
+    temp = '지역 변수'
+    print('1>', temp)
+func()
+print('2>', temp)
+
+# 출력값 : 
+1> 지역 변수
+2> 지역 변수
+```
+
+
+
+#### 람다 함수
+
+```python
+# 기존 함수 형태
+def f(a, b):
+    return print(a + b)
+f(3,2)
+
+# 람다
+f = lambda a, b : print(a+b)
+f(3,2)
+```
+
+
+
+#### map()
+
+- 연속 데이터를 저장하는 시퀀스 자료형에서 요소마다 같은 기능을 적용할 때 사용
+- 형식 : **map(함수명, 리스트형식의 입력값)**
+  - 람다 또한 함수의 형태이기에 삽입 가능
+- 파이썬 3.x에서는 list(map(calc, ex)) 반드시 list를 붙여야 리스트 형식으로 반환된다
+- 파이썬 2.x에서는 list 없이도 리스트 형식으로 반환
+
+```python
+def cals(x):
+    return x * 2
+data = [1, 2, 3, 4, 5]
+
+print(list(map(cals, data)))
+
+# 출력값 :
+[2, 4, 6, 8, 10]
+```
+
+
+
+#### reduce()
+
+리스트 같은 시퀀스 자료형에 차례대로 함수를 적용하여 모든 값을 통합하는 함수
+
+```python
+reduce(함수, 순서형 자료)
+```
+
+```python
+from functools import reduce
+data = [1, 2, 3, 4, 5]
+def f(a, b):
+    return a + b
+print(reduce(f, data))
+
+# 출력값 : 15
+```
+
+
+
+### 모듈(import)
+
+- 함수나 클래스들의 파일
+- 모듈이름은 py 확장자를 제외한 파일 이름
+- 패키지가 디렉토리라면, 모듈은 파일이다
+
+```python
+# mymodule.py
+# 참조할 모듈 파일
+from random import choice
+
+def get_weather():
+    today = ['맑음','비','눈','폭우','돌풍','따뜻']
+    return choice(today)
+
+def get_date():
+    today = ['월','화','수','목','금','토','일']
+    return choice(today)
+```
+
+얘는 걍 정리안해야지..
+
