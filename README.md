@@ -1591,7 +1591,7 @@ def func(a, b, c=0, *args): # args는 변수명
     return sum
 ```
 
-4번째 변수 부터는 파라미터가 몇 개가 들어오든 튜플로 변환하여 값을 받는다.
+4번째 변수 부터는 파라미터가 몇 개가 들어오든 **튜플**로 변환하여 값을 받는다.
 
 조커와 같은 개념으로 변수명 앞에 *****(별표)를 붙여 표기한다.
 
@@ -1618,6 +1618,7 @@ print(func(4, 5, 6, 7, 8, 9))  # args에 7,8,9가 튜플로 들어간다
 
 - *변수명 : 위치인자 모으기
 - **변수명 : 키워드인자 모으기
+- **dictionary**로 변환하여 값을 받는다.
 
 ```python
 def func(a, b, c=0, *args, **kwargs):
@@ -1788,4 +1789,241 @@ def get_date():
 ```
 
 얘는 걍 정리안해야지..
+
+
+
+### 클래스
+
+#### 생성자
+
+```python
+class Sample:
+    data = "헬로우"
+
+    # 생성자
+    # self.변수명 -> 멤버변수
+    def __init__(self, name):
+        self.name = name
+
+# 객체 생성
+s = Sample('홍길동')
+print(s.name)
+```
+
+- `__init__` 함수 : 객체 초기화 함수( 생성자 역할 )
+- `self` : 객체 자신을 가리킨다.
+
+
+
+#### 소멸자
+
+- 생성자는 프로그램 시작시 자동 실행되듯, 소멸자는 종료직전 실행된다.
+- 이를 강제적 실행시키는 방법도 있다.
+
+```python
+# 소멸자
+def __del__(self):
+	self.name = ''
+    self.age = 0
+    print('__del_- 호출')
+
+# 객체 생성
+s = Sample('홍길동', 24)
+del s # 객체 삭제
+```
+
+
+
+#### 인스턴스 함수
+
+> 'self'인 인스턴스를 인자로 받고 인스턴스 변수와 같이 하나의 인스턴스에만 한정된 데이터를 생성, 변경, 참조
+
+```python
+class Book:
+    # 멤버변수
+    cnt = 0
+    def __init__(self, title):
+        self.title = title
+
+    # 인스턴스 함수
+    @classmethod # 자바의 스태틱(메모리 공유)
+    def output(self):
+        # print('제목은 : ', self.title)
+        self.cnt += 1
+        print('총갯수 : ', self.cnt)
+        
+a = Book('책제목이다')
+b = Book('두번째책')
+c = Book('세번째책')
+d = Book('네번째책')
+e = Book('다섯번째책')
+
+a.output()
+b.output()
+c.output()
+d.output()
+e.output()
+```
+
+위의 코드 진행시 cnt 변수는 클래스 변수로 취급되어 누적 값을 갖는다.
+
+
+
+#### 클래스 상속
+
+- 파이썬은 method overriding은 있지만 method overloading 개념은 없다
+- 파이썬은 다중상속이 가능
+- 부모 클래스가 2개 이상인 경우 먼저 기술한 부모클래스에서 먼저 우선 해당 멤버를 찾음
+
+```python
+class Animal:
+    def move(self):
+        print('동물은 움직인다')
+
+# Wolf 클래스는 Animal 클래스 상속관계
+class Wolf(Animal):
+    def move(self):
+        print('늑대는 네발로 달린다')
+
+class Human(Animal):
+    def move(self):
+        print('사람은 두발로 걷는다')
+        
+a = Animal()
+a.move()
+
+w = Wolf()
+w.move()
+
+h = Human()
+h.move()
+```
+
+
+
+##### 다중 상속
+
+```python
+class Werewolf(Wolf, Human):
+    def move(self):
+        # 부모의 move() 호출
+        # 2개로부터 상속받았다면 앞의것을 호출한다
+        super().move()
+        print('늑대인간은 두발로, 네발로 모두 달릴수 있다')
+        
+w = Werewolf()
+w.move()
+```
+
+
+
+#### 매직 메소드
+
+##### 1. Binary Operators
+
+| Operator |                 Method                  |
+| :------: | :-------------------------------------: |
+|    +     |      `object.__add__(self, other)`      |
+|    -     |      `object.__sub__(self, other)`      |
+|    *     |      `object.__mul__(self, other)`      |
+|    //    |   `object.__floordiv__(self, other)`    |
+|    /     |      `object.__div__(self, other)`      |
+|    %     |      `object.__mod__(self, other)`      |
+|    **    | `object.__pow__(self, other[, modulo])` |
+|    >>    |    `object.__lshift__(self, other)`     |
+|    <<    |    `object.__rshift__(self, other)`     |
+|    &     |      `object.__and__(self, other)`      |
+|    ^     |      `object.__xor__(self, other)`      |
+|    \|    |      `object.__or__(self, other)`       |
+
+##### 2. Comparison Operators
+
+더 이상의 자세한 설명은 생략한다.
+
+##### 3. Extended Assignments
+
+##### 4. Unary Operators
+
+
+
+##### 예제
+
+```python
+class Sample:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    # 매직 메소드
+    def __str__(self):
+        return ('이름 : {} \n나이 : {}\n'.format(self.name, self.age))
+
+s = Sample('홍길동', 25)
+print(s)
+```
+
+
+
+### 예외 처리
+
+- 에러
+
+  문법적 오류
+
+- 예외
+
+  실행시 발생하는 오류로 예외가 발생하면 프로그램이 비정상 종료된다
+
+
+
+#### 문법
+
+```python
+try:
+	예외 발생 가능 문장들
+except Exception as e: # e는 별칭
+	예외가 발생한 후에 실행할 문장들
+else:
+	예외가 발생하지 않았을 때 실행되는 문장들
+finally:
+	예외 발생 여부와 상관없이 무조건 실행되는 문장들
+```
+
+[참고] 파이썬 내장 예외
+        https://docs.python.org/3/library/exceptions.html
+
+
+
+### 파일 읽고 쓰기
+
+- 파일을 읽고 쓰기 전에 파일을 열어야 한다
+
+- fileObj = open ( filename, mode )
+        mode 첫번째 글자 - 작업 표시
+        r(read)  : 파일 읽기
+        w(write) : 파일 쓰기 ( 파일이 없으면 생성하고 파일이 있으면 덮어쓴다 )
+        x(write) : 파일 쓰기 ( 파일이 없을 때만 생성하고 쓴다 )
+        a(append) : 파일 추가 ( 파일이 있으면 파일의 끝에서부터 추가하여 쓴다 )
+
+    ​	mode 두번째 글자 - 파일 타입
+    ​	t : 텍스트(text) 타입 ( 기본값 )
+    ​	b : 이진(binary) 타입
+    ​	두번째 글자가 없으면 텍스트 타입이다.
+
+    ​	encoding='utf-8' : 한글
+
+- 파일을 열고 사용 후에는 반드시 닫아야 한다
+
+```python
+try:
+    f = open('./data/data.txt', 'r', encoding='UTF-8')
+except FileNotFoundError as e:
+    print(e, '파일을 찾을 수 없습니다')
+else:
+    while True:
+        line = f.readline()
+        if not line: break
+        print(line)
+    f.close()
+```
 

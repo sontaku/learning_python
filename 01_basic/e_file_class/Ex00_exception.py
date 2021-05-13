@@ -22,6 +22,9 @@
 # 0으로 나누기
 #(1)
 10/0 -> 예외발생 : ZeroDivisionError: division by zero
+"""
+
+
 
 # (2)
 try:
@@ -34,4 +37,8 @@ try:
      10/0
 except Exception  as e:
     print("예외:", e)
-"""
+else:
+    print('예외없음')
+finally:
+    print('무조건수행')
+
