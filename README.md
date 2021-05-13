@@ -2027,3 +2027,16 @@ else:
     f.close()
 ```
 
+
+
+##### with 문
+
+```python
+# with 구문 : close() 자동
+with open('./data/data.txt', 'r', encoding='UTF-8') as f:
+    while True:
+        line = f.readline()
+        if not line: break
+        print(line, end='')
+```
+
