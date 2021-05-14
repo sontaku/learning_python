@@ -2040,3 +2040,270 @@ with open('./data/data.txt', 'r', encoding='UTF-8') as f:
         print(line, end='')
 ```
 
+
+
+### 경로 지정
+
+#### 해당 경로와 하위 목록 확인
+
+```python
+from pathlib import Path
+'''
+ import pathlib 만 선언하면
+ Path클래스 사용시 pathlib.Path라고 명시해야 한다. 
+'''
+
+# 점 1개는 현재경로
+# 점 2개는 상위경로임을 확인 가능하다
+p = Path('.')
+print(p)
+print(p.resolve())  # 현재 패키지 경로를 가리킴 즉, 실제 절대경로
+```
+
+
+
+```python
+test = []
+
+# 현재경로의 하위경로를 iterator로 잡아줌
+# for d in p.iterdir():
+#     # 디렉토리만 잡아줌
+#     if d.is_dir():
+#         test.append(d)
+# print(test)
+
+test = [d for d in p.iterdir() if d.is_dir()]
+print(test)
+```
+
+
+
+##### 특정 파일명 혹은 확장자 별 처리
+
+```python
+p = Path('..') # f_path_class
+# glob : 파일 같은 애를 한꺼번에 처리
+i = list(p.glob('**/a_datatype_class/*.py'))
+print(i)
+```
+
+
+
+#### 순수 경로
+
+- Path는 파일 시스템에 접근하기 때문에, 기본적으로 운영체제 상에 조작 대상 파일 경로가 존재해야 합니다.
+- PurePath는 순수 경로의 기반 클래스입니다.
+- 파일 시스템에 접근하지 않기 때문에, ***운영체제 상에 존재하지 않는 파일 경로***를 다룰 수도 있습니다.
+
+##### 존재하지 않는 경로
+
+```python
+from pathlib import PurePath
+
+p = PurePath('babo/myclass/myjob')
+print(p)
+```
+
+실제로 존재하는 경로가 아니기에 **이름만 관리하는 작업**시 사용된다.
+
+
+
+##### 사용 예시
+
+```python
+p = PurePath('\\192.168.40.55\imsi\mywork')
+print(p.parts)
+```
+
+
+
+##### 경로 붙이기
+
+```python
+b = PurePath('mywork')
+c = b / 'imsi' / 'test' / 'temp'
+print(c)
+```
+
+
+
+##### 부모경로 찾기
+
+```python
+j = PurePath('C:\Windows\System32\drivers\etc\hosts')
+print(j.parts)
+print(j.parts[3])
+
+print(j.parent)
+print(j.parents)
+print(j.parents[0]) # 인덱스가 커질수록 상위경로
+print(j.parents[1])
+print(j.parents[2])
+
+# 출력값 :
+('C:\\', 'Windows', 'System32', 'drivers', 'etc', 'hosts')
+drivers
+C:\Windows\System32\drivers\etc
+<PureWindowsPath.parents>
+C:\Windows\System32\drivers\etc
+C:\Windows\System32\drivers
+C:\Windows\System32
+```
+
+
+
+#### 경로 생성
+
+##### 경로의 상태보기
+
+```python
+from pathlib import Path
+
+print(Path.cwd()) # 리눅스의 pwd
+print(Path.home()) # 리눅스의 홈디렉토리
+
+p = Path('Ex03_createPath.py')
+print(p.stat()) # 리눅스 stat
+```
+
+
+
+##### 경로 생성시간 
+
+```python
+from datetime import datetime
+tm = p.stat().st_atime
+print(tm)
+print(datetime.fromtimestamp(tm))
+```
+
+
+
+##### 디렉토리 생성
+
+```python
+p1 = Path('imsi')
+p1.mkdir(exist_ok=True) # 이미 존재해도 생성
+
+# 다중 경로 생성
+p3 = Path('imsi2/temp2/test')
+p3.mkdir(parents=True)
+```
+
+
+
+##### 파일 생성
+
+```python
+# 1
+with open('imsi/1.txt', 'wt', encoding='UTF-8') as f:
+    f.write('오늘도화이팅')
+
+# 2
+p = Path('imsi/2.txt')
+with open(p, 'wt', encoding='UTF-8') as f:
+    f.write('오늘도화이팅')
+    
+# 3
+p = Path('imsi/3.txt')
+p.write_text('주말행복', encoding='utf-8')
+```
+
+
+
+##### 경로 변경
+
+```python
+from pathlib import Path
+import os
+
+print(Path.cwd()) # 현재 경로
+
+# 체인지 디렉토리
+os.chdir('..')
+print(Path.cwd()) # 현재 경로의 상위 경로
+```
+
+
+
+##### 경로 제거
+
+```python
+f = Path('imsi/3.txt')
+f.unlink()
+
+# 자식으로 파일or디렉토리가 있으면 삭제 불가
+p = Path('imsi')
+p.rmdir()
+```
+
+
+
+##### shutil 라이브러리
+
+```python
+# 강제 삭제
+import shutil
+shutil.rmtree('imsi')
+
+# 파일 복사
+shutil.copy('Ex00.txt', 'babo.txt')
+
+# 디렉토리 복사
+shutil.copytree('../f_path_class', 'temp')
+```
+
+
+
+<hr>
+
+## DB 연결
+
+1. 연결객체(Connection) 얻어오기
+2. 커서(Cursor) 얻어오기
+3. SQL 문장
+4. SQL 실행
+5. 커서 닫기
+6. 연결 닫기
+
+
+
+### 예제
+
+```python
+# 1) 연결객체(Connection) 얻어오기
+import cx_Oracle as oci
+conn = oci.connect('SCOTT/TIGER@127.0.0.1:1521/xe')
+print('연결 성공', conn.version)
+
+# 2) 커서(Cursor) 얻어오기
+cursor = conn.cursor()
+
+# 3) SQL 문장
+sql = 'SELECT * FROM emp'
+
+# 4) SQL 실행
+cursor.execute(sql)
+# 결과처리
+# 4-1) 커서에서 데이터 가져오기
+# for rows in cursor:
+#     print(rows)
+#     print(rows[0], rows[1], rows[2])
+
+# 4-2) 리스트 형식 가져오기
+datas = cursor.fetchall()
+print(datas)
+print(type(datas))
+for rows in datas:
+    print(rows)
+    print(rows[0], rows[1], rows[2])
+
+# 5) 커서 닫기
+cursor.close()
+
+# 6) 연결 닫기
+conn.close()
+```
+
+
+
