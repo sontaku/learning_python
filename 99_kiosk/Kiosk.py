@@ -8,6 +8,7 @@ root.geometry("1250x680")
 root.title("신으슈") # title
 
 # ==============================
+# 상품 클릭시
 def order_list(cid):
   print(cid)
 
@@ -47,6 +48,7 @@ def order_list(cid):
   # 6) 연결 닫기
   conn.close()
 # ==============================
+# 결제 클릭시
 def pay():
   # 1. 연결 얻어오기
   conn = oci.connect('ksk/ksk@127.0.0.1:1521/xe')
@@ -87,7 +89,7 @@ rb_frame = tk.Frame(r_frame, bg='yellow')  # 우측하단 프레임
 rb_frame.pack(side=tk.BOTTOM)
 
 # =========================================================================
-
+# 좌측 프레임 버튼
 label = tk.Label(frame, text='앗 슬리퍼, 컴퓨터보다 싸다')  # top 쪽에 올라감
 label.pack()
 
@@ -115,7 +117,7 @@ img6 = ImageTk.PhotoImage(Image.open("image/s6.png"))
 button6 = tk.Button(l_frame, text="메뉴6", width='270', height='320', image=img6, command=lambda: order_list(6))
 button6.grid(row=1, column=2)
 
-# 우측 ========================
+# 우측 프레임 버튼
 od_list = tk.Label(rt_frame, text='목록', width='25', borderwidth=6, relief="ridge")
 od_list.grid(row=0, column=0)
 odl_list = tk.Listbox(rt_frame, width='26', height=32)
