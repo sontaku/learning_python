@@ -2000,10 +2000,10 @@ finally:
 
 - fileObj = open ( filename, mode )
         mode 첫번째 글자 - 작업 표시
-        r(read)  : 파일 읽기
+        **r(read)  : 파일 읽기
         w(write) : 파일 쓰기 ( 파일이 없으면 생성하고 파일이 있으면 덮어쓴다 )
         x(write) : 파일 쓰기 ( 파일이 없을 때만 생성하고 쓴다 )
-        a(append) : 파일 추가 ( 파일이 있으면 파일의 끝에서부터 추가하여 쓴다 )
+        a(append) : 파일 추가 ( 파일이 있으면 파일의 끝에서부터 추가하여 쓴다 )**
 
     ​	mode 두번째 글자 - 파일 타입
     ​	t : 텍스트(text) 타입 ( 기본값 )
@@ -2303,6 +2303,440 @@ cursor.close()
 
 # 6) 연결 닫기
 conn.close()
+```
+
+
+
+
+
+## 웹 크롤링
+
+### scraping vs crawling
+
+허락 없이 가져다 쓰면 스크래핑
+
+특정 데이터 추출 - 스크래핑
+
+
+
+사이트에서 제공해 주는 것을 받아다 처리하면 크롤링
+
+
+
+웹 크롤링은 일반적으로 Google, Yahoo, Bing 등이 어떤 종류의 정보를 검색하는 방식
+
+웹 스크래핑은 주식 시장 데이터, 비즈니스 리드, 공급업체 제품 스크래핑과 같은 특정 데이터에 대한 특정 웹 사이트를 대상으로 한 것
+
+
+
+### 웹 요청 라이브러리
+
+- requests
+  - 외부 라이브러리
+  - 인터프리터 추가
+- urllib
+
+
+
+### requests
+
+> 외부 라이브러리 requests
+
+```python
+import requests
+# 아래방식은 get 방식
+url = 'https://www.google.com'
+res = requests.get(url)
+# print(res) # 200은 성공 // 405는 에러
+
+# print(res.content)
+print(res.text) # utf-8로 인하여 text 방식 권장
+print('-' * 50)
+```
+
+
+
+### urllib
+
+> 내장모듈 urllib 이용
+
+```python
+# 내장모듈 urllib 이용
+from urllib import request # s 안 붙음
+
+url = 'http://www.google.com'
+
+site = request.urlopen(url)
+print(site)
+page = site.read()
+print(page)
+```
+
+
+
+### [중요] requests vs urllib(내장모듈) 차이점
+
+> |                  | requests        | urllib                         |
+> | ---------------- | --------------- | ------------------------------ |
+> | 데이터 전송 형태 | 딕셔너리        | 인코딩하여 바이너리            |
+> | 요청 메소드 명시 | get, post...etc | 데이터의 여부에 따라 get, post |
+> | 없는 페이지 요청 | 에러X           | 에러O                          |
+> | 모듈             | 외장            | 내장                           |
+>
+> * 어떤 상황에 무엇을 사용해야 하는가...?
+
+
+
+#### urlretrieve()
+
+> 웹 상 데이터(주로 이미지)를 로컬에 저장 후 다룰 때 사용
+>
+> **메모리에 올리지 않고** 파일에 저장
+
+```python
+from urllib import request as req
+
+url = 'http://www.google.com'
+fileName = 'data/google.html'
+req.urlretrieve(url, fileName)
+print('저장됨')
+```
+
+위의 fileName은 수동생성
+
+
+
+#### urlopen()
+
+> 파일로 바로 저장하기 않고 **메모리에 로딩**
+
+```python
+from urllib import request as req
+
+url = 'https://t1.daumcdn.net/daumtop_chanel/op/20200723055344399.png'
+fileName = 'data/daum2.png'
+
+site = req.urlopen(url)
+down = site.read()
+
+# 메모리의 파일을 저장
+with open(fileName, 'wb') as f:
+    f.write(down)
+```
+
+
+
+#### parse.urljoin()
+
+> 상대경로를 절대경로로 변화하는 함수
+
+```python
+from urllib.parse import urljoin
+baseurl = 'http://www.example.com/html/a.html'
+
+# http://www.example.com/html/b.html
+print(urljoin(baseurl, 'b.html'))
+
+# http://www.example.com/html/sub/c.html
+print(urljoin(baseurl, 'sub/c.html'))
+
+# http://www.example.com/sub/d.html
+# 상대경로 지정으로 최상위 경로로 이동
+print(urljoin(baseurl, '/sub/d.html'))
+
+# http://www.example.com/sub/e.html
+print(urljoin(baseurl, '../sub/e.html'))
+
+# http://www.example.com/temp/f.html
+print(urljoin(baseurl, '../temp/f.html'))
+
+print('---------------------------------')
+
+print(urljoin(baseurl, 'www.other.com/mypage')) # 미완성 경로
+print(urljoin(baseurl, '//www.other.com/mypage')) # 완성 경로
+print(urljoin(baseurl, 'http://www.other.com/mypage')) # 완성 경로
+```
+
+// 슬래쉬 2개를 기준으로 완성된 경로로 분류
+
+
+
+### Web api 예제
+
+```python
+"""
+    전세계날씨제공 API : http://openweathermap.org
+
+    1. 회원가입 : 메뉴 > Sign Up > 사용용도 : Education > 대충가입 (무료는 1번에 60번 호출 가능 )
+    2. 개발자모드 : Sign In > API Keys 에서 내가 발급받은 키 (추가 키 가능)
+    3. 발급받고 바로 지정 안됨 (시간소요)
+"""
+
+# API 키를 지정합니다. 자신의 키로 변경해서 사용해주세요.
+apikey = "1db47184ebbc18af53fd996be840d270" # 임시 강사님 key
+
+# 날씨를 확인할 도시 지정하기
+cities = ["Seoul,KR", "Tokyo,JP", "New York,US"]
+
+# url 지정
+api = "http://api.openweathermap.org/data/2.5/weather?q={city}&appid={key}"
+
+# 켈빈 온도를 섭씨 온도로 변환하는 함수
+k2c = lambda k: k - 273.15
+
+import requests
+for cname in cities:
+	url = api.format(city=cname, key=apikey)
+    res = requests.get(url)
+    print(res.text)
+    # print(type(res.text)) # str
+    data = json.loads(res.text)
+
+	# 결과 처리
+    print('======= 도시 : ', data["name"] + ' =======')
+    print('날씨 : ', data["weather"][0]["main"])
+    print('온도 : ', k2c(data["main"]['temp']))
+
+    # 최저온도, 최고온도, 기압, 풍속
+    print('최저온도 : ', k2c(data["main"]['temp_min']))
+    print('최고온도 : ', k2c(data["main"]['temp_max']))
+    print('기압 : ', data["main"]['pressure'])
+    print('풍속 : ', data["wind"]['speed'])
+```
+
+
+
+### beautifulsoup4
+
+> 웹에서 가져온 HTML코드를 파이썬에서 사용하기 편하게 **파싱**해주는 라이브러리
+
+
+
+#### element
+
+```python
+from bs4 import BeautifulSoup
+
+html = """
+    <html><body>
+        <h1>스크레이핑 연습</h1>
+        <p>웹페이지 분석하자</p>
+        <p>데이타 정제하기</p>
+    </body></html>
+"""
+
+# 1. 데이타 파서하기
+bs = BeautifulSoup(html, 'html.parser')
+# 2. 원하는 요소 접근하기
+print('===============================')
+p = bs.find('p')
+print(p)
+
+h1 = bs.html.body.h1
+print(h1)
+
+# 3. 요소의 내용 추출하기
+# p = bs.findAll('p')
+# print(p)
+print('===============================')
+pp = bs.find_all('p')
+print(pp[1].text)
+```
+
+
+
+#### attribute
+
+```python
+from bs4 import BeautifulSoup
+
+html = """
+    <html>
+        <body>
+            <ul>
+                <li><a href='http://www.naver.com'>네이브</a></li>
+                <li><a href='http://www.daum.net'>다아음</a></li>
+            </ul>
+        </body>
+    </html>
+"""
+
+''' 리스트(li)목록의 내용과 해당 경로를 추출하기
+    속성추출 : attrs['속성명']
+
+    [출력결과]
+    네이브 : http://www.naver.com
+    다아음 : http://www.daum.net
+'''
+from bs4 import BeautifulSoup
+
+# 1. 데이타 파서하기
+bs = BeautifulSoup(html, 'html.parser')
+
+# pp = bs.html.body.ul.li.a
+pp = bs.find_all('li')
+print(pp)
+
+for i in pp:
+    print(i.a.text, " : ",i.a.attrs['href'])
+
+print('==========================')
+
+pp = bs.find_all('a')
+print(pp)
+
+for i in pp:
+    print(i.text, " : ",i.attrs['href'])
+```
+
+
+
+#### selector
+
+> jQuery 코드 사용
+
+```python
+from bs4 import BeautifulSoup
+
+html = """
+    <html><body>
+        <div id='course'>
+            <h1>빅데이터 과정</h1>
+        </div>
+        <div id='subjects'> 
+            <ul class='subs'>
+                <li>머신러닝</li>
+                <li>데이터 처리</li>
+                <li>데이타 분석</li>
+            </ul>
+        </div>
+    </body></html>
+"""
+
+# 파싱
+bs = BeautifulSoup(html, 'html.parser')
+
+# (1) id값으로 검색
+h1 = bs.select_one('#course > h1')
+print(h1)
+
+# (2) class로 검색 - 목록내용 추출
+print('=====================')
+cls = bs.select_one('.subs')
+print(cls)
+```
+
+
+
+### 연습 예제
+
+```python
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
+from urllib import request as req
+
+# 교보문고 > '파이썬' 검색 > 국내도서
+html = urlopen("http://www.kyobobook.co.kr/search/SearchKorbookMain.jsp?vPstrCategory=KOR&vPstrKeyWord=python&vPplace=top")
+# html = urlopen("https://search.kyobobook.co.kr/web/search?vPstrKeyWord=python")
+
+bs = BeautifulSoup(html, 'html.parser')
+
+# -------------------------------------
+# 책 제목 추출, 총 권수 출력
+titles = bs.select('div.title > a > strong')
+# prices = bs.select('div.title > a > sell_price')
+print(titles)
+for i in titles:
+    # print(i.text)
+    print(i.string.strip())
+print('총 권수 : ', len(titles))
+
+# ----------------------------
+# 이미지 다운받아 파일 저장
+print('----------------------------------')
+imgUrl = bs.select('.cover > a > img')
+# print(imgUrl)
+
+for i in range(len(imgUrl)):
+    # print(imgUrl[i].attrs['src'])
+    imgPath = imgUrl[i].attrs['src']
+    imgName = imgUrl[i].attrs['alt'].replace(':', '-')
+    print(imgPath + " : " + imgName)
+    req.urlretrieve(imgPath, 'images/' + imgName + '.jpg')
+```
+
+
+
+### 내부 링크 추출
+
+```python
+from bs4 import BeautifulSoup
+from urllib import parse
+from urllib import request
+
+def enum_links(html,base):
+    bs = BeautifulSoup(html, 'html.parser')
+    links = bs.select('a')
+    #-------------------------------------
+    result = []
+    for a in links:
+        href = a.attrs['href']
+        url = parse.urljoin(base, href)
+        result.append(url)
+    return result
+
+if __name__ == '__main__':
+    url = 'https://docs.python.org/3.7/library/'
+    response = request.urlopen(url)   # urllib.request.urlopen() : BeautifulSoup을 통해 html 파서할(데이타를 가져올) 대상
+    result = enum_links(response, url)
+    print(result)
+```
+
+
+
+### 파일 다운
+
+```python
+from urllib import parse
+from urllib import request
+import os, time, re  # re : 정규식
+
+def download_file(url):
+    p = parse.urlparse(url)
+    print('1>', p)
+    savepath = './' + p.netloc + p.path
+    print('2>', savepath)
+    # 마지막에 '/'로 끝나면 뒤에 index.html 붙이기
+    if re.search('/$', savepath):
+        savepath += 'index.html'
+        print('3>', savepath)
+    else:
+        savepath += '.html'
+
+    # 해당 파일이 존재하는지
+    if os.path.exists(savepath):
+        return savepath
+
+    # 다운로드 할 폴더 생성
+    savedir = os.path.dirname(savepath)
+    if not os.path.exists(savedir):
+        os.makedirs(savedir) # dirs 는 하위 경로까지 생성
+
+    # 해당 url을 다운받기
+    try:
+        print('다운로드 : ', url)
+        request.urlretrieve(url, savepath)
+        time.sleep(2)
+        return savepath
+    except:
+        print('다운로드 실패 : ', url)
+        return None
+if __name__ == '__main__':
+    # url 지정
+    # url = 'https://docs.python.org/3.6/library/'
+    url = 'https://search.naver.com/search.naver?where=nexearch&sm=tab_opt&query=%EB%A6%AC%EB%B2%84%ED%92%80+%EB%B9%85%ED%81%B4%EB%9F%BD+%EC%95%84%EB%8B%88%EC%95%BC&nso=so%3Add%2Cp%3A1h&nso_open=1'
+    result = download_file(url)
+    print(result)
 ```
 
 
