@@ -14,17 +14,47 @@
 """
 
 from selenium import webdriver
+import time
+from bs4 import BeautifulSoup
 
 #-------------------------------1. 웹 페이지 접근
 # 웹드라이버 객체 생성
 driver = webdriver.Chrome('./webdriver/chromedriver')
 driver.implicitly_wait(3)
 
+
+
 # 페이지 접근
 driver.get('http://www.goobne.co.kr/store/search_store.jsp')
+for page_idx in range(1, 11):
+    driver.execute_script("store.getList('%d')" % page_idx)
+    time.sleep(2)
 
+    html = driver.page_source
+    # print(html)
 
+    bs =BeautifulSoup(html, "html.parser")
+    # for store_list in bs.select('tbody#store_list'):
+    #     print(store_list)
 
+    # 지점명 추출
+    store_name = bs.select('tbody#store_list tr td:first-child')
+    for i in range(len(store_name)):
+        print(store_name[i].text)
+    print('----------------------------------')
 
+    # 전화번호 추출
+    store_tel = bs.select('.store_phone > a')
+    for i in range(len(store_tel)):
+        print(store_tel[i].text)
+    print('----------------------------------')
 
+    # 주소 추출
+    store_addr = bs.select('.t_left > a')
+    for i in range(len(store_addr)):
+        print(store_addr[i].text)
 
+    print('----------------------------------')
+
+    for n, t, a in zip(store_name, store_tel, store_addr):
+        print(n.text + ":" + t.text + "," + a.text)

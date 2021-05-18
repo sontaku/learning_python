@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<head>    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_6155175a028f463bbcb4b75f61ef525e {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+            </style>
+        
+</head>
+<body>    
+    
+            <div class="folium-map" id="map_6155175a028f463bbcb4b75f61ef525e" ></div>
+        
+</body>
+<script>    
+    
+            var map_6155175a028f463bbcb4b75f61ef525e = L.map(
+                "map_6155175a028f463bbcb4b75f61ef525e",
+                {
+                    center: [37.24197957372821, 131.86467486531407],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 16,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_53a01279ad9a4b8094880c778eadf493 = L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_6155175a028f463bbcb4b75f61ef525e);
+        
+    
+            var marker_f761e3c8a2e6478381381cbbc088f661 = L.marker(
+                [37.24197957372821, 131.86467486531407],
+                {}
+            ).addTo(map_6155175a028f463bbcb4b75f61ef525e);
+        
+    
+            var icon_d47d8008120d42a19fbfcaa8cc4c80e3 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "red", "prefix": "glyphicon"}
+            );
+            marker_f761e3c8a2e6478381381cbbc088f661.setIcon(icon_d47d8008120d42a19fbfcaa8cc4c80e3);
+        
+    
+        var popup_95163e0dd64444e6a6e4886d44abd0fa = L.popup({"maxWidth": "100%"});
+
+        
+            var html_c2f2b959296647569490d2b8099a034b = $(`<div id="html_c2f2b959296647569490d2b8099a034b" style="width: 100.0%; height: 100.0%;">독도</div>`)[0];
+            popup_95163e0dd64444e6a6e4886d44abd0fa.setContent(html_c2f2b959296647569490d2b8099a034b);
+        
+
+        marker_f761e3c8a2e6478381381cbbc088f661.bindPopup(popup_95163e0dd64444e6a6e4886d44abd0fa)
+        ;
+
+        
+    
+    
+            var circle_marker_c326107fad8e4e9e8ab7387dccf792e4 = L.circleMarker(
+                [37.50376049896291, 130.85725563339628],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 100, "stroke": true, "weight": 3}
+            ).addTo(map_6155175a028f463bbcb4b75f61ef525e);
+        
+    
+        var popup_04a7c14725ab45e9810860482a9e1f8c = L.popup({"maxWidth": "100%"});
+
+        
+            var html_67a75e755c63445abd0b3d613057dfba = $(`<div id="html_67a75e755c63445abd0b3d613057dfba" style="width: 100.0%; height: 100.0%;">울릉도</div>`)[0];
+            popup_04a7c14725ab45e9810860482a9e1f8c.setContent(html_67a75e755c63445abd0b3d613057dfba);
+        
+
+        circle_marker_c326107fad8e4e9e8ab7387dccf792e4.bindPopup(popup_04a7c14725ab45e9810860482a9e1f8c)
+        ;
+
+        
+    
+</script>

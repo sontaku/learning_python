@@ -2741,3 +2741,184 @@ if __name__ == '__main__':
 
 
 
+## Selenium
+
+- 주로 웹앱을 테스트하는데 이용하는 프레임워크
+- 웹 브라우저를 원격으로 조작할 때 사용
+- 자동으로 URL을 열고 클릭, 스크롤, 문자 입력등의 동작을 조작할 수 있다.
+- webdriver라는 API를 통해 운영체제에 설치된 Chrome등의 브라우저를 제어하게 된다.
+
+Selenium은 driver객체를 통해 여러가지 메소드를 제공한다.
+
+HTML을 브라우저에서 파싱해주기 때문에 굳이 Python와 BeautifulSoup을 사용하지 않아도 된다.
+
+
+
+### 설치
+
+Pycharm 기준
+
+File > Settings > Project Interpreter > + 버튼 > selenium 검색 후 인스톨
+
+
+
+혹은 터미널
+
+```
+pip install selenium
+```
+
+
+
+Selenium의 버전은 자주 업데이트 되고, 브라우저의 업데이트 마다 새로운 Driver를 잡아주기 때문에 항상 최신버전을 깔아 주는 것이 좋다.
+
+
+
+#### 크롬 웹 드라이버 설치
+
+http://chromedriver.chromium.org/downloads
+
+
+
+### 메뉴얼
+
+- https://selenium-python.readthedocs.io/index.html
+- https://docs.seleniumhq.org/docs/
+
+
+
+### 웹페이지 화면을 캡쳐하여 저장
+
+```python
+
+from selenium import webdriver
+
+# 1. webdriver 객체생성
+driver = webdriver.Chrome('./webdriver/chromedriver.exe')
+driver.implicitly_wait(3) # 3초 대기
+
+# 2. 페이지 접근
+driver.get('http://www.daum.net')
+
+# 3. 화면을 캡처해서 저장하기
+# 설치경로
+driver.save_screenshot('./webdriver/WebImage.png')
+
+driver.close()
+```
+
+
+
+### 크롬웹드라이버로 구글 검색
+
+구글 검색창 input name 확인 !
+
+```python
+# [1]
+from selenium import webdriver
+
+# 1. webdriver 객체생성
+driver = webdriver.Chrome('./webdriver/chromedriver.exe')
+driver.implicitly_wait(3) # 3초 대기
+
+# 2. 페이지 접근
+driver.get('http://www.google.com')
+
+#----------------------------------------------
+# [2]
+# 구글 검색창 input name : q
+search = driver.find_element_by_name('q')
+search.send_keys('코로나 극복')
+# 폼 태그 안에 인풋 타입이 텍스트인 애가 하나만 있으면 엔터 쳤을 때 자동 서브밋
+search.submit()
+
+driver.close()
+```
+
+
+
+### 네이버 로그인
+
+```python
+"""
+네이버 로그인 페이지를 실행하기
+    크롬에서 네이버 로그인 페이지를 개발자모드에서 확인하여
+    로그인 폼의 아이디와 비밀번호 입력 name 확인
+    아이디 : id
+    비밀번호 : pw
+"""
+import time
+
+from selenium import webdriver
+
+# 0. 네이버 로그인 정보
+myID = '아이디'
+myPW = '패스워드'
+
+# 1. webdriver 객체생성
+driver = webdriver.Chrome('./webdriver/chromedriver.exe')
+driver.implicitly_wait(3) # 3초 대기
+
+# 2. 페이지 접근
+driver.get('https://nid.naver.com/nidlogin.login')
+
+# 네이버의 경우 아래 방식이 막혀있음
+# driver.find_element_by_name('id').send_keys(myID)
+# driver.find_element_by_name('pw').send_keys(myPW)
+# driver.find_element_by_name('log.login').click()
+
+# 자바스크립트를 통해 전송
+# 이거도 막힘..
+driver.execute_script("document.getElementsByName('id')[0].value=\'" + myID + "\'")
+driver.execute_script("document.getElementsByName('pw')[0].value=\'" + myPW + "\'")
+driver.find_element_by_id('log.login').click()
+```
+
+
+
+## Folium
+
+> 지도 데이터 시각화 라이브러리
+
+
+
+### 설치 
+
+```
+pip install folium
+```
+
+
+
+```python
+import folium
+
+# 위도, 경도 지정
+# 줌 설정
+map = folium.Map(location=[37.24197957372821, 131.86467486531407], zoom_start=16)
+
+# 마커
+folium.Marker(location=[37.24197957372821, 131.86467486531407],
+              popup="독도",
+              icon=folium.Icon(color='red', icon='info-sign')).add_to(map)
+
+# 서클 마커
+folium.CircleMarker(location=[37.50376049896291, 130.85725563339628],
+              popup="울릉도",
+              radius=100, color='blue', fill_color='white').add_to(map)
+
+map.save('map/map3.html')
+```
+
+
+
+## Tool : Jupyter
+
+### 세팅
+
+1. 응용프로그램 우클릭
+2. 속성 - 경로에 적용할 repository 추가
+
+
+
+![]()
