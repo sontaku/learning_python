@@ -2912,13 +2912,345 @@ map.save('map/map3.html')
 
 
 
-## Tool : Jupyter
 
-### 세팅
+
+
+
+## Analysis
+
+### Tool : Jupyter 사용 권장
+
+#### 세팅
 
 1. 응용프로그램 우클릭
 2. 속성 - 경로에 적용할 repository 추가
 
+<hr>
+
+### 판다스 (Pandas)
+
+- 핵심객체는 DataFrame이다
+- 데이타프레임은 2차원 데이터 구조체로 넘파이보다 편리하게 데이타 핸들링한다.
+- R 언어의 데이타 프레임과 비슷하고 많이 사용된다
 
 
-![]()
+
+#### 판다스를 사용하는 이유
+
+
+만일 파이썬의 리스트와 판다스의 Series가 거의 유사하다면, 우리는 왜 파이썬의 리스트가 아닌 판다스의 Series를 사용할까? 
+
+파이썬의 리스트를 사용하면 판다스에서 제공하는 다양한 기능을 사용할 수 없기 때문이다.
+
+
+
+[참고]
+
+https://pandas.pydata.org/Pandas_Cheat_Sheet.pdf
+
+<hr>
+
+### Series
+
+- DataFrame의 한 컬럼 데이터 세트
+- Series 역시 DataFrame의 인덱스와 동일한 인덱스를 가진다
+- 즉 Series는 컬럼이 하나인 데이타 구조체이고, DataFrame은 컬럼이 여러개인 데이타 구조체이다
+
+```python
+import pandas as pd
+age_in = pd.Series([22,33,44,25,28])
+age_in
+
+# 인덱스 시작번호, 끝번호, 간격
+age_in.index
+
+# 값 리스트
+age_in.values
+```
+
+
+
+#### Series 인덱스
+
+- 리스트, 튜플의 index와  dict 의 key 와 유사
+- 같은 값의 index 가 가능 ( 즉, **중복 가능** )
+
+
+
+- 리스트 튜플 index : 일련번호로 변경불가 / 순서 개념이 있다
+
+- Series Index : 중복 가능 / 순서 개념이 있다
+- Dict key : 중복 불가 / 순서 개념 없다
+
+
+
+##### 인덱스 지정하여 시리즈 생성
+
+```python
+src = pd.Series(['가', '나', '다'], index=['a', 'b', 'a'])
+print(src)
+
+print(src['a'])
+src['b'] = '안녕'
+src['a'] = '헬로'
+```
+
+
+
+##### 딕셔너리를 시리즈 형태로 변환
+
+```python
+info_list = { 'kim': 25, 'park':22, 'lee':34 }
+
+info_serise = pd.Series(info_list.values(), index=['a', 'b', 'c'])
+info_serise
+```
+
+
+
+
+
+### DataFrame
+
+#### 1. 열(컬럼) 추출
+
+```python
+df.컬럼명
+df['컬럼명']
+```
+
+
+
+#### 2. 행 추출
+
+```python
+df.loc[] : 인덱스 지정하지 않으면 인덱스(순서), 인덱스 지정하면 인덱스로 추출
+df.iloc[] : 인덱스(순서)로 추출
+df.ix[] : 명칭 기반 인덱싱과 위치 기반 인덱싱 모두 사용 (* 그러나 곧 사라질 예정 )
+```
+
+ [참고] 
+
+- 위 3 연산자는 노련한 개발자들도 혼동하기에, 일반적으로 하나만 선택해서 사용하는 것을 권장한다
+- 넘파이와 유사한 부분으로 더우 혼동하기 쉽다
+- 판다스의 DataFrame와 Series에서도 다른이 있어서 주의해야 한다
+
+
+
+#### 3. 행과 열에서 추출
+
+```python
+df.loc[2, 3] : 2 행의 3열 데이터
+df.loc[1:3, 2:4] : 1부터 3행전까지의 행에서 2부터 4전까지의 열의 데이터
+```
+
+
+
+##### 데이터 프레임 자료 생성
+
+```python
+import pandas as pd
+
+# 데이타 프레임 자료 생성
+mydata = {
+          'name':['홍길동','박길동','김길동'], 
+          'age':[22,33,44], 
+          'dept':['컴공','국어','산업']
+         }
+df = pd.DataFrame(mydata)
+df
+```
+
+
+
+##### dept 열(컬럼) 추출
+
+```python
+df.dept
+df['dept']
+```
+
+
+
+##### 1행(레코드 추출)
+
+```pyth
+df.loc[1]
+```
+
+
+
+##### 컬럼 추가
+
+```python
+df['gender'] = ['여자','남자','여자']
+```
+
+
+
+##### 행 추가
+
+```python
+df.loc[3] = ['장길동', 55, '전자', '남자']
+```
+
+
+
+iloc 는 접근 가능할까?
+
+```python
+df.iloc[4] = ['짱길동', 55, '전자', '남자']
+# 행 추가는 loc로만 가능
+```
+
+
+
+##### 변경
+
+```python
+# 인덱스순서를 변경하려면 -> 인덱스는 우선 DataFrame이 있는 상태에서 변경해야 한다
+df = df.reindex(index=[0,2,5,3,1])
+
+# 존재하지 않는 인덱스 포함 변경이 NaN 값이 들어간 데이터가 삽입됨
+df = df.reindex(index=[0,1,2,3])
+```
+
+
+
+##### [중요] 컬럼 연산
+
+> DataFrame을 쓰는 이유
+
+```python
+# 기존 존재하는 컬럼을 기준으로 연산된 컬럼 추가
+# 존재하지 않는 컬럼시  '새로 추가'
+# 존재하는 컬럼은 '데이터 변경'
+df['age + 10'] = df['age'] + 10
+```
+
+
+
+##### 특정 행의 열값을 변경
+
+```python
+df.loc[2, 'dept'] = '산업2'
+```
+
+
+
+##### 특정 조건 레코드 검색
+
+```python
+# 30세 이상의 레코드 겁색
+df[df['age'] > 30]
+```
+
+
+
+#### 데이터 필터링
+
+- 넘파이와 유사한 부분으로 더우 혼동하기 쉽다
+- 판다스의 DataFrame와 Series에서도 다른 부분이 있어서 주의해야 한다
+
+
+1. loc[] : 인덱스와 명칭으로 추출
+
+2. iloc[] : 인덱스로 추출
+
+3. ix[] : 명칭 기반 인덱싱과 위치 기반 인덱싱 모두 사용 (*  그러나 곧 사라질 예정 )
+
+
+위 3 연산자는 노련한 개발자들도 혼동하기에, 일반적으로 하나만 선택해서 사용하는 것을 권장한다
+
+
+
+##### 명칭기반 인덱스
+
+```python
+# 행 추출
+df.loc[2]
+
+# 열 추출
+df['name']
+
+# 행 추출 (여러개)
+df.loc[[2, 5, 1]]
+
+# 열 추출 ( 여러개 : name, dept, gender )
+df[['name', 'dept', 'gender']]
+
+# 열 추출 ( 여러개 : name, dept, gender ) + 특정 행
+df.loc[[2, 5, 1],['name','dept', 'gender']]
+```
+
+
+
+##### 특정 컬럼으로 인덱스 지정
+
+```python
+df.set_index('name')
+
+df2 = df.set_index('name')
+
+# inplace=True -> 원본 덮어쓰기
+# 권장하지 않는 방법
+df.set_index('name', inplace=True)
+```
+
+
+
+##### 정렬과 T
+
+```python
+# 나이를 오름차순으로
+# df.sort_index(ascending=0)   # 인덱스 정렬 기본값이 ascending=1
+df.sort_values('age')
+df.sort_values('age', ascending=0)
+
+df2 = df.sort_values('age', ascending=0)
+
+# 행과 열 변경
+df.T
+```
+
+
+
+##### 정보확인
+
+```python
+# 총 데이터 건수와 데이타 타입등 정보 확인
+df.info()
+
+# 기본통계량 구하기 ( 총개수, 평균, 표준편차, 최소값, 4분위수 등)
+df.describe()
+```
+
+
+
+### 데이터 시각화
+
+```python
+# 데이터
+data = pd.read_csv('data/president_heights.csv')
+
+data.info() # 정보
+data.mean() # 평균
+data.min() # 최소값
+data.max() # 최대값
+data.median() # 얜 뭐냐
+```
+
+#### 1. DataFrame / Series 함수
+
+#### 2. matplotlib 라이브러리
+
+#### 3. seaborn 라이브러리
+
+#### 4. 판다스 내부함수
+
+```python
+import pandas as pd
+
+data['height'].plot(kind = 'hist')
+```
+
