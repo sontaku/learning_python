@@ -3244,6 +3244,14 @@ data.median() # 얜 뭐냐
 
 #### 2. matplotlib 라이브러리
 
+```python
+import matplotlib.pyplot as plt
+
+plt.hist(data['height'])
+```
+
+
+
 #### 3. seaborn 라이브러리
 
 #### 4. 판다스 내부함수
