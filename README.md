@@ -3425,3 +3425,67 @@ df = json.load(open('data/JsonData.json'))
 df['food_name']['best-of-best']
 ```
 
+
+
+#### web 상 데이터 읽기
+
+1. Url 상의 csv 읽기 :  pandas.read_csv(url) 
+2. 크롤링하여 읽기
+- requests / Selenium 라이브러리 활용
+    - pandas.read_html(url, .. ) : 내부적으로 requests 라이브러리 사용
+3. pandas-datareader 라이브러리
+    - 내부적으로 requests 라이브러리 사용
+    - 버전에 따라 오류 발생
+    - Google Finance/Yahoo Finance 등에서 데이타 지원 -> 연결이 안될 수도 있음
+
+
+
+> [참고] Kosdaq 종목코드 CSV URL : https://goo.gl/3p3dSG
+>
+>    - https://gist.githubusercontent.com/allieus/5ce98166166d06ee9060e6a261e812dc/raw
+>    - 위 주소를 pandas.read_csv(여기)에 붙이기
+>
+> [참고] Kospi 종목코드 CSV URL : https://goo.gl/aUHznC
+>
+> - https://gist.githubusercontent.com/allieus/733725662c644ab56c9db9d3cdf77ed1/raw
+
+
+
+### matplotlib 클래스
+
+> 자세한 분석을 위함이 아닌, 
+>
+> 시각화를 해야하는 이유
+
+
+
+#### 한글처리
+
+```python
+%matplotlib inline
+
+import matplotlib.pyplot as plt
+
+# 한글등록
+from matplotlib import font_manager, rc  # rc : resource
+
+# 추가설정 - 폰트를 변경하면 -표시가 ㅁ으로 변경되기에 '-'를 변경하지 않도록 지정
+plt.rcParams['axes.unicode_minus']=False 
+
+fong_loc = "c:/Windows/Fonts/malgun.ttf" # 글꼴 경로
+font_name = font_manager.FontProperties(fname=fong_loc).get_name()
+# print(font_name) # 폰트매니저를 통해 인식하고 있는 글꼴 이름을 가져온다
+rc('font', family=font_name) # 리소스에 글꼴을 등록
+
+
+# [중요] 간단한 한글등록
+from matplotlib import font_manager, rc
+
+plt.rcParams['axes.unicode_minus']=False  # 추가설정 : 폰트를 변경하면 -표시가 ㅁ으로 변경되기에 '-'를 변경하지 않도록 지정
+rc('font', family='Malgun Gothic')
+
+###  [참고] 폰트종류 볼 때
+from matplotlib import font_manager
+font_manager.fontManager.ttflist
+```
+
