@@ -217,199 +217,6 @@ print('실수 : {0}, 정수 : {1}'.format(y, 100))
 
 
 
-#### 연습문제
-
-```python
-1. 변수와 자료형
-
- 
-
-1. 다음 코드의 실행 결과를 쓰시오.
-
->>> a = 777
-
->>> b = 777
-
->>> print(a == b, a is b)
-
-
-
-2. 다음 중 변수를 메모리에서 삭제하기 위해 사용하는 명령어는?
-
-➀ del ➁ delete ➂ remove ➃ pop ➄ clear
-
-
-
-3. 빈칸에 들어갈 각각의 코드 실행 결과를 쓰시오.
-
->>> a = 3.5
-
->>> b = int(3.5)
-
->>> print(a**((a // b) * 2))
-
-(가) 
-
->>> print(((a - b) * a) // b)
-
-(나)
-
->>> b = (((a - b) * a) % b)
-
->>> print(b)
-
-(다)
-
->>> print((a * 4) % (b * 4))
-
-(라)
-
-
-
-4. 입력받은 섭씨온도를 화씨온도로 변환하는 프로그램을 코딩하려고 한다. 코드 순서를 바르게 나열한 것은?
-
-(1) fahrenheit = (( 9 / 5) * celsius) + 32
-
-(2) celsius = input("섭씨온도를 입력하세요:")
-
-(3) print("섭씨온도:",celsius, "화씨온도:", fahrenheit)
-
-(4) celsius = float(input("섭씨온도를 입력하세요:"))
-
-➀ (2) - (1) - (3)➁ (4) - (3) - (1) ➂ (1) - (2) - (3)
-
-➃ (4) - (1) - (3) ➄ (4) - (2) - (3)
-
-
-
-​
-
-5. 다음 변수 a의 자료형은?
-
-a = "True"
-
-➀ 소수형 ➁ 문자형 ➂실수형➃불린형➄ 정수형
-
-
-
-​
-
-6. 다음과 같은 코드 작성 시, 실행 결과로 알맞게 짝지어진 것은?
-
->>> a = 10.6
-
->>> b = 10.5 
-
->>> print(a * b)
-
->>> type(a + b)
-
-➀ 111.3, <class ‘int’>➁ 111.3, <class ‘str>➂ 111.3, <class ‘float’>
-
-➃ 105.0, <class ‘int>➄ 105.0, <class ‘float’>
-
-
-
-​
-
-​
-
-7. 다음과 같이 코드를 작성했을 때, 실행 결과로 알맞은 것은?
-
->>> a = "3.5"
-
->>> b = 4
-
->>> print(a * b)
-
-➀ error ➁ 3.53.53.53.5 ➂ 14.0 ➃ 14 ➄ "14"
-
-
-
-​
-
-​
-
-8. a = "3.5", b = "1.5"일 때, print(a + b)의 실행 결과는?
-
-① 5 ② 3.51.5 ③ a + b ④ ab➄ 2
-
-
-
-​
-
-​
-
-​
-
-9. 다음과 같이 코드를 작성했을 때, 실행 결과로 알맞은 것은?
-
->>> a = '3'
-
->>> b = float(a)
-
->>> print(b ** int(a))
-
-① TypeError ② '27.0' ③ 27.0 ④ 27 ⑤ '27
-
-
-
-10. 변수(variable)에 대한 설명으로 틀린 것은?
-
-① 프로그램에서 사용하기 위한 특정한 값을 저장하는 공간이다.
-
-② 선언되는 순간 메모리의 특정 영역에 공간이 할당된다.
-
-③ 변수에 할당된 값은 하드디스크에 저장된다.
-
-④ A = 8은 "A는 8이다"라는 뜻이 아니다.
-
-⑤ ‘2x + 7y’는 14라고 하면, 이 식에서 x와 y가 변수이다.
-
-
-​
-
-​
-
-​
-
-
-11. 다음과 같이 코드를 작성했을 때, 실행 결과로 알맞은 것은?
-
->>> a = '20'
-
->>> b = '4'
-
->>> print(type(float(a / b)))
-
-➀<class 'int'>➁<class 'str'>➂<class 'float'>
-
-➃ 4. 3.333333333 ➄TypeError
-
-
-​
-
-​
-
-​
-
-​
-
-13. 변수명을 지을 때 권장하는 규칙 중 틀린 것은?
-
-① 변수명은 알파벳, 숫자, 언더스코어(_ ) 등을 사용하여 표현할 수 있다.
-
-② 변수명은 의미 있는 단어로 쓰는 것을 권장하며, 한글도 사용할 수 있다.
-
-③ 변수명은 대소문자가 구분된다.
-
-④ 문법으로 사용되는 특별한 예약어는 변수명으로 쓰지 않는다.
-
-⑤ 변수명은 _( 언더스코어) 대신 낙타표시법으로 작성한다.
-```
-
-
-
 ### 문자열 인덱싱
 
 ```python
@@ -3260,5 +3067,361 @@ plt.hist(data['height'])
 import pandas as pd
 
 data['height'].plot(kind = 'hist')
+```
+
+
+
+#### [중요] apply()
+
+> 각 요소별 적용하는 함수
+
+```python
+import pandas as pd
+
+# dataframe 객체
+df = pd.DataFrame( {'a':[10,20,30], 'b':[2, 4, 6]})
+
+# 함수 정의
+def my_fun1(x):
+    return x**2
+
+def my_fun2(x, n):
+    return x**n
+
+# apply() 함수를 이용하여 모든 데이타에 각각 함수 적용하기
+df.apply(my_fun1)
+df['a'].apply(my_fun2, n = df['b'])
+```
+
+
+
+##### DataFrame 각 열 단뒤로 데이터 합 출력
+
+```python
+def my_fun3(col):
+    sum=0
+    for i in col:
+        sum += i
+    return sum
+
+df.apply(my_fun3)
+df.apply(my_fun3, axis=1) # 열 방향
+```
+
+
+
+##### 조건별 컬럼값 지정
+
+```python
+def func(score):
+    grade = ''
+    if( score <= 10) : grade='C'
+    elif(score <= 20) : grade='B'
+    elif(score <= 30) : grade='A'
+    return grade
+
+df['score'] = df['a'].apply(func)
+
+# 람다식
+df['a'].apply( lambda x : func(x) )
+```
+
+
+
+#### 결측치 데이터 처리
+
+- 결측치는 데이터 분석 결과에 엄청난 영향을 미치기에 존재여부 확인부터 중요
+- None을 포함하며, 결측값은 ‘NaN’로 표시
+- 결측값 확인 메소드 
+  * isnull()
+  * notnull()
+
+- 결측값 처리
+    - 제거 : dropna()
+    - 대치 : fillna()
+
+```python
+import pandas as pd
+import numpy as np
+
+df = pd.DataFrame(np.ones((4, 4)), index=['A', 'B', 'C', 'D'])
+
+# 결측치 만들기
+df.iloc[1, 1] = np.NaN
+df.loc['B', 2] = np.NaN
+# df['C'][2] = np.NaN # 에러
+df['C', 2] = np.NaN
+
+# 누적합
+df.cumsum(axis=0)
+df.cumsum(axis=1)
+# df.cumsum(axis=1, fill_value=0)  # 에러
+
+# 결측치 확인
+df.isnull()
+df.notnull()
+
+# 결측치의 갯수
+# df.isnull().count() # 카운트는 열의 갯수를 셈
+df.isnull().sum()  # True값의 갯수를 셈
+
+# 결측치 제거
+df.dropna()
+```
+
+
+
+#### [예제] 1. 피마인디언 데이터
+
+> UCI 저장소에서 제공하는 피마인디언 데이터
+
+- 1950년대까지 비만인이 없던 피마인디언 부족
+- 그러나 페스트푸드 문화와 더불어 지금은 전체 부족의 60%가 당뇨이고 80%가 비만
+
+
+
+##### 활용 데이터
+
+> ```
+> - 샘플수(레코드) : 768
+> - 속성 : 8
+>         - 정보1 (pregnant) : 과거 임신 횟수
+>         - 정보2 (plasma) : 포도당 부하 검사 2시간 후 공복 혈당 농도 (mm Hg)
+>         - 정보3 (pressure) : 혈압(mm Hg)
+>         - 정보4 (thickness) :삼두근 피부 주름 두께(mm)
+>         - 정보5 (insulin) : 혈청 인슐린 (2hour, mu U/ml)
+>         - 정보6 (BMI) : 체질량지수  weight(kg)/(height(m)*height(m))
+>         - 정보7 (pedigree) : 당뇨병 가족력
+>         - 정보8 (age) : 나이
+>         
+> - 클래스 : 당뇨 (1:당뇨 / 0:당뇨아님) 
+> ```
+
+
+
+```python
+# 데이터셋 로딩
+import pandas as pd
+
+# df = pd.read_csv('./data/pima-indians-diabetes.csv')
+
+# 항목명 추가
+df = pd.read_csv('./data/pima-indians-diabetes.csv', names=['pregnant','plasma','pressure','thickness', 'insulin','BMI','pedigree','age','diabetes'])
+
+# 임신횟수(pregnant)당 당뇨병 발생(diabetes) 확률
+temp = df[['pregnant', 'diabetes']]
+
+temp2 = temp.groupby(['pregnant']).mean()
+
+# 그래프
+temp2.plot()
+# temp2.loc[14:].plot()
+df[df['pregnant']>=14]
+
+# 임신횟수당 인원수 확인 : value_counts()
+df['pregnant'].value_counts()
+```
+
+[ 분석 ] 
+
+- 임신횟수가 14번 이상이면 당뇨병에 걸릴 확률이 100%인가? 
+- 임신횟수가 14번 이상인 경우가 몇 건 없는데 당뇨병이라고 하여 이를 확정할 수 있는가?
+- 집단의 비율이 동일해야 한다
+  - 1 ~ 3명 / 4 ~ 6명 / 7 ~ 9명 / 10 ~ 12명 / 13 ~ 이상명을 임신횟수를 가진 사람들을 각 집단에 100명씩 조사한 결과여야함
+
+[ 추가 고민 ] 임신횟수별 인원수를 구해서 나누면?
+
+
+
+#### [예제] 2. 타이타닉
+
+##### 활용 데이터
+
+> ```
+> Survival - 생존 여부. 0이면 사망, 1이면 생존한 것으로 간주합니다.
+> Pclass - 티켓 등급. 1등석(1), 2등석(2), 3등석(3)이 있으며, 1등석일수록 좋고 3등석일수록 좋지 않습니다.
+> Sex - 성별. 남자(male)와 여자(female)이 있습니다.
+> Age - 나이입니다. 틈틈히 빈 값이 존재하며, 소수점 값도 존재합니다.
+> SibSp - 해당 승객과 같이 탑승한 형재/자매(siblings)와 배우자(spouses)의 총 인원 수입니다.
+> Parch - 해당 승객과 같이 탑승한 부모(parents)와 자식(children)의 총 인원 수입니다.
+> Ticket - 티켓 번호입니다. 다양한 텍스트(문자열)로 구성되어 있습니다.
+> Fare - 운임 요금입니다. 소수점으로 구성되어 있습니다.
+> Cabin - 객실 번호입니다. 많은 빈 값이 존재하며, 다양한 텍스트(문자열)로 구성되어 있습니다.
+> Embarked - 선착장입니다. C는 셰르부르(Cherbourg)라는 프랑스 지역, Q는 퀸스타운(Queenstown)이라는 영국 지역, S는 사우스햄튼(Southampton)이라는 영국 지역입니다.
+> ```
+
+
+
+```python
+# 데이터셋 로딩
+import pandas as pd
+
+titanic = pd.read_csv('data/titanic.csv')
+
+
+# (1) 1등실 승객중 나이가 10세 미만인 승객
+titanic[(titanic['Age'] < 10) & (titanic['Pclass'] == 1) ]
+
+
+# (2) 선실 등급별 승객의 수 : groupby() + 집계함수(count() / sum() / mean() / min() / max() . . .)
+titanic.groupby(['Pclass']).count()
+
+
+# (3) 선실 등급별 생존자 수
+titanic.groupby(['Pclass','Survived']).count()
+# titanic[['Pclass','Survived']].groupby('Pclass').count()
+titanic[['Pclass', 'PassengerId', 'Survived']].groupby(['Pclass', 'Survived']).count()
+
+"""
+    groupby().agg()
+
+    DataFrame의 groupby()는 SQL의 group by 보다 유연성이 떨어질 수 밖에 없다
+    그래도 DataFrame의 groupby()에서 여러 개의 컬럼에 각각 다른 집계 함수를 사용할 때 agg() 함수 이용
+"""
+
+#  선실등급별 가장 많은 나이값, 평균요금 구하고자 한다면??
+# value는 함수명
+agg_format = {'Age' : 'max', 'SibSp' : 'count', 'Fare' : 'mean'}
+titanic.groupby('Pclass').agg(agg_format)
+
+# 나이에 따라 15미만은 Chlid, 15이상 60세 미만은 'Adult' 그 이상은 Elderly로 구분하려면
+
+def get_age_cate(age):
+    cat = ''
+    if age < 15: cat = 'Child'
+    elif age < 60 : cat = 'Adult'
+    else : cat = 'Elderly'
+    
+    return cat
+
+titanic['Age_cate'] = titanic['Age'].apply(get_age_cate)
+titanic[titanic['Age'] < 15]
+```
+
+
+
+#### [예제] 3. 고속도로 ( groupby() )
+
+##### groupby()와 함께 사용하는 집계 메소드
+
+- count : 누락값을 제외한 데이타 수를 반환
+- size : 누락값을 포함한 데이타 수를 반환
+- sum
+- mean
+- std
+- var
+- min
+- max
+- quantile(q=0.25)
+- quantile(q=0.50)
+- quantile(q=0.75)
+- describe
+- first
+- last
+- nth   : n번째 행 반환
+- sem   : 평균의 표준편차 반환
+
+
+
+```python
+# 데이터셋 로딩
+import pandas as pd
+df = pd.read_excel('data/고속버스.xlsx') 
+
+
+# 그룹화 - '선별' 단위로 각각의 노선에 대한 총 갯수
+# df.groupby('선별').count()
+df_group = df.groupby('선별')
+df_group.count()
+
+df.groupby('선별').count().sort_values('차종', ascending=0)
+
+%matplotlib inline
+
+# 한글처리
+from matplotlib import rc
+rc('font', family='Malgun Gothic')
+
+# 노선별 수에 대한 그래프
+df_group = df.groupby('선별')
+df_group['차종'].count().plot(kind='bar')
+
+
+# 교차테이블(cross tab) - 엑셀의 Pivot 유사
+result = pd.crosstab( df['차종'], df['선별'] )
+result.plot(kind='hist')
+```
+
+
+
+#### 파일 확장자별 포맷
+
+1. read_excel()
+
+2. read_csv() : 기본 구분자 콤마(,)
+
+3. read_table() : 기본 구문자가 탭(\t)
+
+   read_csv('파일명','\t') 동일
+
+4. read_fwf() : Fixed Width (고정길이) 기반의 컬럼 포맷을 읽어오는 함수
+
+
+
+> [참고]  utf-8 관련 에러 발생한다면?
+>    - read_csv('data/temp.csv', encoding=cp949)
+>    - cp949 : 윈도우에서의 한글
+
+
+
+```python
+df = pd.DataFrame(mysource)
+
+df.to_csv('./result/temp.csv') # 한글깨짐
+df.to_excel('./result/temp.xlsx')
+
+
+# csv 파일을 읽어오는 방법
+df2 = pd.read_csv('./result/temp.csv')
+df2
+
+
+# 컬럼명을 인덱스로 지정
+df2 = pd.read_csv('./result/temp.csv', index_col='Unnamed: 0')
+
+
+# 불필요한 행 제외하고 로딩하기 ( 경기, 서울 제외)
+df3 = pd.read_csv('./result/temp.csv', index_col='Unnamed: 0', skiprows=[1, 2])
+
+
+# 컬럼 지정 (컬럼의 종류가 너무 많은데 필요한 부분이 작은 경우에 사용한다)
+df = pd.read_excel('data/인구주택총조사2015.xlsx')
+
+
+# usecols 는 읽어오는 파일 엑셀의 열 이름
+df = pd.read_excel('data/인구주택총조사2015.xlsx', nrows=10, usecols='E:J')
+
+
+# df.columns # 컬럼 목록
+df.shape # 행 갯수, 전체 레코드 수
+df
+
+
+### 텍스트파일 읽어오기
+
+# 텍스트파일(data/TextData.txt) 읽어오기
+# 미리 엑셀파일에서 5줄 복사해서 메모장에 넣고 (탭구분상태)로 저장한다.
+df = pd.read_csv('data/TextData.txt', '\t', encoding='cp949') # '\t' 구분자 Tab 지정
+
+
+### JSON 파일 읽어오기
+# JSON 파일(data/JsonData.json) 읽어오기
+# pd.read_json() 있음
+import json
+
+df = json.load(open('data/JsonData.json'))
+
+# bibimbab 추축
+df['food_name']['best-of-best']
 ```
 
