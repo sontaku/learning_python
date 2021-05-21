@@ -3489,3 +3489,207 @@ from matplotlib import font_manager
 font_manager.fontManager.ttflist
 ```
 
+
+
+
+
+내용 추가해야함!
+
+
+
+
+
+
+
+#### subplot
+
+```python
+%matplotlib inline
+import numpy as np
+import matplotlib.pyplot as plt
+
+''' 0. figure(그림영역)을 만들고 + 그리고 + 보여주기 '''
+plt.figure()
+plt.plot(np.random.randn(100))
+plt.plot(np.random.randn(200).cumsum()) # 누적합
+plt.show()
+
+""" 1.  figure(그림틀=공간?)을 만들고 거기에 subplot을 추가 하는 방식 """
+fig = plt.figure(figsize=(16,8)) # 단위 inch
+
+# 그래프 배치 변경
+# ax1 = fig.add_subplot(1,2,1) # 1행 2열 중 첫번째 
+# ax2 = fig.add_subplot(1,2,2) # 1행 2열 중 두번째
+
+ax1 = fig.add_subplot(2,1,1) 
+ax2 = fig.add_subplot(2,1,2)
+ax1.plot(np.random.randn(100))
+ax2.plot(np.random.randn(200).cumsum())
+
+""" 2. figure로 공간을 만들고 파이플롯(pyplot)의 subplot()으로 각각의 패널 지정 """
+
+
+""" 3. 간단하게 ax 객체를 이용하기 """
+fig, ax = plt.subplots(2,1)
+ax[0].plot(np.random.randn(100))
+ax[1].plot(np.random.randn(200).cumsum())
+```
+
+
+
+##### sublot 개념
+
+```python
+# 사이즈 지정
+plt.figure(figsize=(16,8))
+
+# plt.subplot(2,2,1)
+# plt.subplot(2,2,2)
+# plt.subplot(2,1,2)
+
+# 콤마 생략해도 출력됨
+# plt.subplot(221)
+# plt.subplot(222)
+# plt.subplot(212)
+
+# plt.show()
+
+plt.subplot(211)
+plt.subplot(234)
+plt.subplot(235)
+plt.subplot(236)
+
+# 묶음처리
+plt.subplot(2,1,1)
+plt.subplot(2,3,(4,5))
+plt.subplot(2,3,6)
+
+plt.show()
+```
+
+subplot(행, 열, 순서)
+
+ex) sublpot(2, 3, 1) : 2행 3열 구조의 첫번째
+
+ex) sublpot(2, 2, 4) : 2행 2열 구조의 네번째
+
+순서는 윗행 왼쪽부터 오른쪽으로, 아래행으로 진행
+
+
+
+#### 그래프 종류
+
+1. 일변량 그래프 : 하나의 변수만 사용한 그래프
+
+   - 히스토그램 (수치변수)
+
+     ```python
+     import seaborn                   # 데이타
+     import matplotlib.pyplot as plt  # 그래프 라이브러리
+     
+     tips = seaborn.load_dataset('tips') # 팁을 지불한 손님의 정보 데이타
+     tips.head()
+     
+     
+     # 히스토그램
+     plt.hist(tips['total_bill'])
+     ```
+
+   - 막대그래프 (범주변수or명목변수 : 성별, 학력, 취미 등 수치화 할 수 없는 변수)
+
+     ```python
+     sex = tips['sex'].value_counts()
+     sex
+     
+     # plt.bar(['Male', 'Female'], sex)
+     sex.plot(kind='bar')
+     ```
+
+2. 이변량 그래프 : 변수 2개를 이용한 그래프( 산점도 그래프 )
+
+   예시) 지불금액에 따른 팁 금액을 나타내는 그래프
+
+   ```python
+   plt.scatter(tips['total_bill'], tips['tip'])
+   plt.title('지불금액에 따른 팁')
+   plt.xlabel('지불금액')
+   plt.ylabel('팁')
+   ```
+
+   
+
+3. 이산형 변수와 연속형 변수 : 박스 플롯
+
+   - 이산형 : 성별이나 국적처럼 명확하게 구분되는 값
+   - 연속형 : 수치로 이루어진 값
+   - 예시) 성별에 따른 팁을 나타내는 그래프
+
+   ```python
+   female = tips[tips['sex'] == 'Female']['tip']
+   female
+   
+   male = tips[tips['sex'] == 'Male']['tip']
+   male
+   
+   # 세미콜론 붙이면 정보 데이터 미출력
+   plt.boxplot([female, male], labels=['여자', '남자']);
+   ```
+
+   
+
+4. 다변량 그래프 : 3개 이상의 변수로 그래프 ( 산점도 그래프 )
+
+   예) 식사지불과 팁의 정도를 성별에 따른 그래프
+
+   ```python
+   # (1) 성별을 0과 1로 변환하는 함수 선언
+   def gender(sex):
+       if sex == 'Female':
+           return 0
+       else :
+           return 1
+   
+   # (2) 변경한 성별값의 변수(컬럼 sex_color) 추가
+   tips['sex_col'] = tips['sex'].apply(gender)
+   
+   # (3) 그래프 : x와 y 축, c=점의 색상, alpha=점의 투명도, s=점의 크기
+   #    테이블당의 인원수를 점의 크기로 표현한다면 s=tips['size']*10 추가
+   # c : 컬러 지정
+   # s : 사이즈별 원 크기
+   plt.scatter(x=tips['total_bill'], y=tips['tip'], c=tips['sex_col'], s=tips['size']*10)
+   ```
+
+   
+
+#### 화살표와 주석
+
+차트상에서 주석 처리하는 함수 : annotate(s, xy, xytext, arrowprops, . . . )
++ s: 주석
++ xy : 화살표시작위치
++ xytext : 주석 텍스트의 시작 위치
++ arrowprops : 화살표의 속성들
+
+> [참고] Matplotlib에서 화살표를 그리는 것은 plt.arrow()가 있지만 사용하기 어렵다. 게다가 플롯의 사로 세로 비율이 바뀔 때마다 원하는 결과 얻기 어렵다.
+>
+> plt.annotate() 함수 이용을 권장한다
+
+```python
+%matplotlib inline
+
+import numpy as np
+import matplotlib.pyplot as plt 
+
+fig, ax = plt.subplots()
+plt.plot( np.cos(np.linspace(0, 20, 100)))
+
+ax.axis('equal')
+
+ax.annotate("important Point", xy=(5, -0.5), xytext=(10, 4), arrowprops=dict(facecolor='red', shrink=0.05))
+```
+
+
+
+#### [참조] seabron 정리
+
+`03_matplotlib_class/Ex07_seaborn_정리_class.ipynb`
+
